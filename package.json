@@ -17,6 +17,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexNsk26/MySpotyfi.git"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -34,5 +38,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/AlexNsk26/MySpotyfi/issues"
+  },
+  "homepage": "https://github.com/AlexNsk26/MySpotyfi#readme"
 }
