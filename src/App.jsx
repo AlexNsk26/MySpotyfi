@@ -1,5 +1,6 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable comma-dangle */
-// import logoPNG from '../img/logo.png';
+// import logoPNG from '../public/logo.png';
 // import '../css/style.css';
 // import ArrPlayList from './Playlist.json'
 // import React from 'react';
@@ -12,12 +13,12 @@ function App() {
       <div className="container">
         <main className="main">
           <MainNavigation
-            logo="../img/logo.png"
+            logo="../public/logo.png"
             items={['Главное', 'Мой плейлист', 'Войти']}
           />
           <div className="main__centerblock centerblock">
             <div className="centerblock__search search">
-              <CenterBlockSearchLogo logo="img/icon/sprite.svg#icon-search" />
+              <CenterBlockSearchLogo logo="../public/icon/sprite.svg#icon-search" />
               <CenterBlockSearchInput />
             </div>
           </div>
@@ -25,7 +26,7 @@ function App() {
           <div className="centerblock__filter filter">
             <div className="filter__title">Искать по:</div>
             <FilterButtons
-              BTNobject={{
+              btnObject={{
                 'button-author': 'исполнителю',
                 'button-year': 'году выпуска',
                 'button-genre': 'жанру',
@@ -56,9 +57,9 @@ function App() {
               <div className="sidebar__list">
                 <SidebarList
                   list={[
-                    '../img/playlist01.png',
-                    '../img/playlist02.png',
-                    '../img/playlist03.png',
+                    '../public/playlist01.png',
+                    '../public/playlist02.png',
+                    '../public/playlist03.png',
                   ]}
                 />
               </div>
@@ -73,11 +74,11 @@ function App() {
                 <div className="player__controls">
                   <PlayerControls
                     list={[
-                      '../img/icon/sprite.svg#icon-prev',
-                      '../img/icon/sprite.svg#icon-play',
-                      '../img/icon/sprite.svg#icon-next',
-                      '../img/icon/sprite.svg#icon-repeat',
-                      '../img/icon/sprite.svg#icon-shuffle',
+                      '../public/icon/sprite.svg#icon-prev',
+                      '../public/icon/sprite.svg#icon-play',
+                      '../public/icon/sprite.svg#icon-next',
+                      '../public/icon/sprite.svg#icon-repeat',
+                      '../public/icon/sprite.svg#icon-shuffle',
                     ]}
                   />
                 </div>
@@ -146,16 +147,16 @@ function MainNavigation(props) {
 }
 function BurgerLines() {
   const content = [];
-  for (let i = 0; i < 2; i + 1) {
-    content.push(<span className="burger__line" />);
+  for (let i = 0; i < 2; i++) {
+    content.push(<span key={i.toString()} className="burger__line" />);
   }
   return content;
 }
 function MenuItems(props) {
   const content = [];
-  for (let index = 0; index < props.items.length; index + 1) {
+  for (let index = 0; index < props.items.length; index++) {
     content.push(
-      <li className="menu__item">
+      <li key={String(index)} className="menu__item">
         <a href="http://" className="menu__link">
           {props.items[index]}
         </a>
@@ -183,34 +184,54 @@ function CenterBlockSearchInput() {
   );
 }
 function FilterButtons(props) {
-  const BTNobject = props;
-  return BTNobject.keys().map((key) => (
-    <div className={`filter__button ${key} _btn-text`}>{BTNobject[key]}</div>
-  ));
+  const { btnObject } = props;
+  const arrKeysBtnObject = Object.keys(btnObject);
+  const content = [];
+  for (let index = 0; index < arrKeysBtnObject.length; index++) {
+    content.push(
+      <div
+        key={index.toString()}
+        className={`filter__button ${arrKeysBtnObject[index]} _btn-text`}
+      >
+        {btnObject[arrKeysBtnObject[index]]}
+      </div>
+    );
+  }
+  return content;
 }
 function PlaylistTitles(props) {
-  const titleObject = props;
-  return titleObject.keys().map((key) => (
-    <div className={`playlist-title__col col${key}`}>
-      {key === '04' ? (
-        <svg className="playlist-title__svg" alt="time">
-          <use xlinkHref="img/icon/sprite.svg#icon-watch" />
-        </svg>
-      ) : (
-        titleObject[key]
-      )}
-    </div>
-  ));
+  const { titleObject } = props;
+  const arrTitleObject = Object.keys(titleObject);
+  const content = [];
+  for (let index = 0; index < arrTitleObject.length; index++) {
+    content.push(
+      <div
+        key={index.toString()}
+        className={`playlist-title__col col${arrTitleObject[index]}`}
+      >
+        {arrTitleObject[index] === '04' ? (
+          <svg className="playlist-title__svg" alt="time">
+            <use xlinkHref="img/icon/sprite.svg#icon-watch" />
+          </svg>
+        ) : (
+          titleObject[arrTitleObject[index]]
+        )}
+      </div>
+    );
+  }
+  return content;
 }
 function PlaylistItems() {
-  return <PlaylistItem playlist={JSON.parse(playlistArr)} />;
+  return <PlaylistItem playlist={playlistArr} />;
 }
-function PlaylistItem(playlist) {
+function PlaylistItem(props) {
   const content = [];
+  const { playlist } = props;
   // eslint-disable-next-line no-restricted-syntax
-  for (const itemObj of playlist) {
+  for (let index = 0; index < playlist.length; index++) {
+    const itemObj = playlist[index];
     content.push(
-      <div className="playlist__item">
+      <div key={index.toString()} className="playlist__item">
         <div className="playlist__track track">
           <TrackTitle title={itemObj.title} />
           <TrackAuthor author={itemObj.author} />
@@ -220,6 +241,7 @@ function PlaylistItem(playlist) {
       </div>
     );
   }
+
   return content;
 }
 function TrackTitle(props) {
@@ -268,23 +290,40 @@ function TrackTime(props) {
   );
 }
 
-function SidebarList(list) {
-  return list.map((src) => (
-    <div className="sidebar__item">
-      <a className="sidebar__link" href="http://">
-        <img className="sidebar__img" src={src} alt="day's playlist" />
-      </a>
-    </div>
-  ));
+function SidebarList(props) {
+  const content = [];
+  const { list } = props;
+  // eslint-disable-next-line no-restricted-syntax
+  for (let index = 0; index < list.length; index++) {
+    content.push(
+      <div key={index.toString()} className="sidebar__item">
+        <a className="sidebar__link" href="http://">
+          <img
+            className="sidebar__img"
+            src={list[index]}
+            alt="day's playlist"
+          />
+        </a>
+      </div>
+    );
+  }
+  return content;
 }
-function PlayerControls(controlsBTN) {
-  return controlsBTN.map((src) => (
-    <div className="player__btn-prev">
-      <svg className="player__btn-prev-svg" alt="prev">
-        <use xlinkHref={src} />
-      </svg>
-    </div>
-  ));
+
+function PlayerControls(props) {
+  const content = [];
+  const { list } = props;
+  // eslint-disable-next-line no-restricted-syntax
+  for (let index = 0; index < list.length; index++) {
+    content.push(
+      <div key={index.toString()} className="player__btn-prev">
+        <svg className="player__btn-prev-svg" alt="prev">
+          <use xlinkHref={list[index]} />
+        </svg>
+      </div>
+    );
+  }
+  return content;
 }
 function TrackPlay(props) {
   return (
