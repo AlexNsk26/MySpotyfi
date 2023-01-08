@@ -1,4 +1,4 @@
-const playlistArr = require('../Playlist.json');
+const playlistArr = require('./Playlist.json');
 
 export function PlaylistTitle() {
   return (

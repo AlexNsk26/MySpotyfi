@@ -1,15 +1,10 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable comma-dangle */
-// import logoPNG from '../public/logo.png';
-// import '../css/style.css';
-// import React from 'react';
-import MainNavigation from './Header/navigation';
-import Filters from './Filters/Filters';
-import { PlaylistTitle, Playlist } from './Playlist/Playlist';
-import Sidebar from './Sidebar/Slidebar';
-import Player from './Player/Player';
-import CenterBlock, { TrackHeader } from './Others/CentreBlock';
-import Footer from './Others/Footer';
+import MainNavigation from './components/Header/navigation';
+import Filters from './components/Filters/Filters';
+import CenterBlock, { TrackHeader } from './components/Others/CentreBlock';
+import { PlaylistTitle, Playlist } from './components/Playlist/PlaylistApp';
+import Sidebar from './components/Sidebar/Slidebar';
+import Player from './components/Player/Player';
+import Footer from './components/Others/Footer';
 
 function App() {
   return (
