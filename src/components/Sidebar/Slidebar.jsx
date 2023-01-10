@@ -1,3 +1,7 @@
+import playlist01 from './img/playlist01.png';
+import playlist02 from './img/playlist02.png';
+import playlist03 from './img/playlist03.png';
+
 function Sidebar() {
   return (
     <div className="main__sidebar sidebar">
@@ -7,13 +11,7 @@ function Sidebar() {
       </div>
       <div className="sidebar__block">
         <div className="sidebar__list">
-          <SidebarList
-            list={[
-              './img/playlist01.png',
-              './img/playlist02.png',
-              './img/playlist03.png',
-            ]}
-          />
+          <SidebarList list={[playlist01, playlist02, playlist03]} />
         </div>
       </div>
     </div>
@@ -21,21 +19,16 @@ function Sidebar() {
 }
 export default Sidebar;
 function SidebarList(props) {
-  const content = [];
-  const { list } = props;
+  let { list } = props;
 
-  for (let index = 0; index < list.length; index++) {
-    content.push(
-      <div key={index.toString()} className="sidebar__item">
-        <a className="sidebar__link" href="http://">
-          <img
-            className="sidebar__img"
-            src={list[index]}
-            alt="day's playlist"
-          />
-        </a>
-      </div>
-    );
-  }
-  return content;
+  list = list.map((picSrc, index) => (
+    // eslint-disable-next-line react/no-array-index-key
+    <div key={index.toString()} className="sidebar__item">
+      <a className="sidebar__link" href="http://">
+        <img className="sidebar__img" src={picSrc} alt="day's playlist" />
+      </a>
+    </div>
+  ));
+
+  return list;
 }

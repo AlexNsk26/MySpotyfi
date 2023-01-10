@@ -1,4 +1,6 @@
-const playlistArr = require('./Playlist.json');
+import iconSvg from '../mainIcons/sprite.svg';
+
+const playlistArr = require('../Playlist.json');
 
 export function PlaylistTitle() {
   return (
@@ -26,55 +28,51 @@ export function Playlist() {
 
 function PlaylistTitles(props) {
   const { titleObject } = props;
+
   const arrTitleObject = Object.keys(titleObject);
-  const content = [];
-  for (let index = 0; index < arrTitleObject.length; index++) {
-    content.push(
-      <div
-        key={index.toString()}
-        className={`playlist-title__col col${arrTitleObject[index]}`}
-      >
-        {arrTitleObject[index] === '04' ? (
-          <svg className="playlist-title__svg" alt="time">
-            <use xlinkHref="img/icon/sprite.svg#icon-watch" />
-          </svg>
-        ) : (
-          titleObject[arrTitleObject[index]]
-        )}
-      </div>
-    );
-  }
-  return content;
+  arrTitleObject.map((numberList, index) => (
+    <div
+      // eslint-disable-next-line react/no-array-index-key
+      key={index.toString()}
+      className={`playlist-title__col col${numberList}`}
+    >
+      {numberList === '04' ? (
+        <svg className="playlist-title__svg" alt="time">
+          <use xlinkHref={`${iconSvg}#icon-watch`} />
+        </svg>
+      ) : (
+        titleObject[numberList]
+      )}
+    </div>
+  ));
+
+  return arrTitleObject;
 }
 function PlaylistItems() {
   return <PlaylistItem playlist={playlistArr} />;
 }
 function PlaylistItem(props) {
-  const content = [];
-  const { playlist } = props;
-  // eslint-disable-next-line no-restricted-syntax
-  for (let index = 0; index < playlist.length; index++) {
-    const itemObj = playlist[index];
-    content.push(
-      <div key={index.toString()} className="playlist__item">
-        <div className="playlist__track track">
-          <TrackTitle title={itemObj.title} />
-          <TrackAuthor author={itemObj.author} />
-          <TrackAlbum album={itemObj.album} />
-          <TrackTime time={itemObj.time} />
-        </div>
+  let { playlist } = props;
+  playlist = playlist.map((track, index) => (
+    // eslint-disable-next-line react/no-array-index-key
+    <div key={index.toString()} className="playlist__item">
+      <div className="playlist__track track">
+        <TrackTitle title={track.title} />
+        <TrackAuthor author={track.author} />
+        <TrackAlbum album={track.album} />
+        <TrackTime time={track.time} />
       </div>
-    );
-  }
+    </div>
+  ));
 
-  return content;
+  return playlist;
 }
 function TrackTitle(props) {
   return (
     <div className="track__title">
       <div className="track__title-image">
         <svg className="track__title-svg" alt="music">
-          <use xlinkHref="img/icon/sprite.svg#icon-note" />
+          <use xlinkHref={`${iconSvg}#icon-note`} />
         </svg>
       </div>
       <div className="track__title-text">
@@ -108,7 +106,7 @@ function TrackTime(props) {
   return (
     <div className="track__time">
       <svg className="track__time-svg" alt="time">
-        <use xlinkHref="img/icon/sprite.svg#icon-like" />
+        <use xlinkHref={`${iconSvg}#icon-like`} />
       </svg>
       <span className="track__time-text">{props.time}</span>
     </div>

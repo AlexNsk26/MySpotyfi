@@ -180,7 +180,22 @@ body {
   font-size: 16px;
   line-height: 24px;
 }
+/* My additions start*/ 
 
+.filterMenu {
+  width: 248px;
+  height: 305px;
+  background: #313131;
+  border-radius: 12px;
+  font-family: 'StratosSkyeng';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  font-feature-settings: 'pnum' on, 'lnum' on;
+}
+
+/* My additions end*/
 .centerblock__search {
   width: 100%;
   border-bottom: 1px solid #4e4e4e;

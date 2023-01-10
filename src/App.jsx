@@ -11,7 +11,7 @@ function App() {
     <div className="wrapper">
       <div className="container">
         <main className="main">
-          <MainNavigation items={['Главное', 'Мой плейлист', 'Войти']} />
+          <MainNavigation />
           <CenterBlock />
           <TrackHeader />
           <Filters />

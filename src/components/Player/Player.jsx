@@ -1,3 +1,5 @@
+import iconSvg from '../mainIcons/sprite.svg';
+
 function Player() {
   return (
     <div className="bar">
@@ -8,11 +10,11 @@ function Player() {
             <div className="player__controls">
               <PlayerControls
                 list={[
-                  '../mainIcons/sprite.svg#icon-prev',
-                  '../mainIcons/sprite.svg#icon-play',
-                  '../mainIcons/sprite.svg#icon-next',
-                  '../mainIcons/sprite.svg#icon-repeat',
-                  '../mainIcons/sprite.svg#icon-shuffle',
+                  `${iconSvg}#icon-prev`,
+                  `${iconSvg}#icon-play`,
+                  `${iconSvg}#icon-next`,
+                  `${iconSvg}#icon-repeat`,
+                  `${iconSvg}#icon-shuffle`,
                 ]}
               />
             </div>
@@ -23,12 +25,12 @@ function Player() {
             <div className="track-play__like-dis">
               <div className="track-play__like _btn-icon">
                 <svg className="track-play__like-svg" alt="like">
-                  <use xlinkHref="img/icon/sprite.svg#icon-like" />
+                  <use xlinkHref={`${iconSvg}#icon-like`} />
                 </svg>
               </div>
               <div className="track-play__dislike _btn-icon">
                 <svg className="track-play__dislike-svg" alt="dislike">
-                  <use xlinkHref="../mainIcons/sprite.svg#icon-dislike" />
+                  <use xlinkHref={`${iconSvg}#icon-dislike`} />
                 </svg>
               </div>
             </div>
@@ -38,7 +40,7 @@ function Player() {
           <div className="volume__content">
             <div className="volume__image">
               <svg className="volume__svg" alt="volume">
-                <use xlinkHref="../mainIcons/sprite.svg#icon-volume" />
+                <use xlinkHref={`${iconSvg}#icon-volume`} />
               </svg>
             </div>
             <div className="volume__progress _btn">
@@ -74,7 +76,7 @@ function TrackPlay(props) {
     <>
       <div className="track-play__image">
         <svg className="track-play__svg" alt="music">
-          <use xlinkHref="../mainIcons/sprite.svg#icon-note" />
+          <use xlinkHref={`${iconSvg}#icon-note`} />
         </svg>
       </div>
       <div className="track-play__author">
