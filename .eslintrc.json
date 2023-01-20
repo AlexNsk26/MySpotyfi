@@ -21,6 +21,9 @@
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/prop-types": 0,
-    "react/destructuring-assignment": [0]
+    "react/destructuring-assignment": [0],
+    "comma-dangle": "off",
+    "linebreak-style": "off",
+    "no-plusplus": "off"
   }
 }
