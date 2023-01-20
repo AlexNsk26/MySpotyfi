@@ -180,22 +180,7 @@ body {
   font-size: 16px;
   line-height: 24px;
 }
-/* My additions start*/ 
 
-.filterMenu {
-  width: 248px;
-  height: 305px;
-  background: #313131;
-  border-radius: 12px;
-  font-family: 'StratosSkyeng';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
-  font-feature-settings: 'pnum' on, 'lnum' on;
-}
-
-/* My additions end*/
 .centerblock__search {
   width: 100%;
   border-bottom: 1px solid #4e4e4e;
@@ -891,3 +876,169 @@ body {
 .volume__progress-line {
   width: 109px;
 }
+/* My additions start*/
+
+.filterMenu {
+  width: 248px;
+  height: 305px;
+  position: relative;
+  top: 190px;
+  right: 140px;
+  background: #313131;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.filterBlock::-webkit-scrollbar {
+  width: 4px;
+  background: #4b4949;
+  border-radius: 10px;
+  padding-top: 34px;
+}
+.filterBlock::-webkit-scrollbar-thumb {
+  width: 4px;
+  height: 65px;
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+.filterBlock {
+  padding-left: 34px;
+  padding-right: 24px;
+  margin-top: 36.5px;
+  margin-bottom: 36.5px;
+  overflow: auto;
+  /*width: 248px;
+  height: 305px; 
+  box-sizing: border-box;
+  width: 248px;
+  height: 305px;*/
+}
+.filterTrack {
+  font-family: 'StratosSkyeng';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  padding-bottom: 24px;
+  display: block;
+  width: 152px;
+  /* identical to box height, or 120% */
+
+  font-feature-settings: 'pnum' on, 'lnum' on;
+
+  color: #ffffff;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 4;
+  flex-grow: 0;
+}
+.filterTrack:hover {
+  text-decoration-line: underline;
+  font-feature-settings: 'pnum' on, 'lnum' on;
+
+  color: #b672ff;
+}
+
+._btn-text_click {
+  border-color: #ad61ff;
+  color: #ad61ff;
+}
+.Sceleton {
+  background: #313131;
+}
+.sceleton_mainTrack {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding-top: 10px;
+  align-items: center;
+}
+.sceleton_trackImage {
+  width: 51px;
+  height: 51px;
+}
+.sceleton_trackTitle {
+  width: 356px;
+  height: 19px;
+}
+.sceleton_trackAuthor {
+  width: 271px;
+  height: 19px;
+}
+.sceleton_trackAlbum {
+  width: 305px;
+  height: 19px;
+}
+.sceleton_trackPlayerTitles {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+  justify-content: center;
+}
+.sceleton_trackPlayerTitle {
+  width: 59px;
+  height: 15px;
+  margin-top: 5px;
+}
+.sceleton_playlistImg {
+  width: 250px;
+  height: 150px;
+}
+.sceleton_TrackPlayer {
+  display: flex;
+  flex-wrap: nowrap;
+}
+.filterMenuYear {
+  display: flex;
+  align-items: flex-start;
+  padding: 34px;
+  gap: 14px;
+  width: 403px;
+  height: 92px;
+  background: #313131;
+  border-radius: 12px;
+  position: relative;
+  top: 80px;
+  right: 140px;
+  justify-content: center;
+  align-items: center;
+}
+.checkYear {
+  box-sizing: border-box;  
+  width: 18px;
+  height: 18px;
+  border: 1px solid #ffffff;
+  margin-left: 14px; 
+ 
+}/* 
+.checkYear + label::before{
+  content: '';
+  border-radius: 100%;
+  border: 1px solid #ffffff;
+  background-color: #000;
+} */
+.checkYearButton {
+  width: 10.8px;
+  height: 10.8px;
+  background: #ffffff;
+}
+.labelRadio {
+  font-family: 'StratosSkyeng';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+
+  font-feature-settings: 'pnum' on, 'lnum' on;
+
+  color: #ffffff;
+
+  /* flex: none;
+  order: 1;
+  flex-grow: 0; */
+}
+/* My additions end*/

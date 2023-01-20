@@ -1,6 +1,7 @@
 import iconSvg from '../mainIcons/sprite.svg';
+import { SceletonTrackPlayer } from '../Others/Sceleton';
 
-function Player() {
+function Player(props) {
   return (
     <div className="bar">
       <div className="bar__content">
@@ -19,7 +20,11 @@ function Player() {
               />
             </div>
             <div className="player__track-play track-play">
-              <TrackPlay authorLink="Ты та..." albumLink="Баста" />
+              {props.IsLoading ? (
+                <SceletonTrackPlayer />
+              ) : (
+                <TrackPlay authorLink="Ты та..." albumLink="Баста" />
+              )}
             </div>
 
             <div className="track-play__like-dis">

@@ -3,66 +3,77 @@
     "title": "Guilt",
     "author": "Nero",
     "album": "Welcome Reality",
-    "time": "4:44"
+    "time": "4:44",
+    "genre": "Поп-музыка"
   },
   {
     "title": "Elektro",
     "author": "Dynoro, Outwork, Mr. Gee",
     "album": "Elektro",
-    "time": "4:44"
+    "time": "4:44",
+    "genre": "Поп-музыка"
   },
   {
     "title": "Guilt",
     "author": "Nero",
     "album": "Welcome Reality",
-    "time": "2:22"
+    "time": "2:22",
+    "genre": "Хип-хоп"
   },
   {
     "title": "I'm Fire",
     "author": "Ali Bakgor",
     "album": "I'm Fire",
-    "time": "2:22"
+    "time": "2:22",
+    "genre": "Хип-хоп"
   },
   {
     "title": "Non Stop",
     "author": "Стоункат, Psychopath",
     "album": "Non Stop",
-    "time": "4:12"
+    "time": "4:12",
+    "genre": "Поп-музыка"
   },
   {
     "title": "Run Run",
     "author": "Jaded, Will Clarke, AR/CO",
     "album": "Run Run",
-    "time": "2:54"
+    "time": "2:54",
+    "genre": "Инди"
   },
   {
     "title": "Eyes on Fire",
     "author": "Blue Foundation, Zeds Dead",
     "album": "Eyes on Fire",
-    "time": "5:20"
+    "time": "5:20",
+    "genre": "Инди"
   },
   {
     "title": "Mucho Bien",
     "author": "HYBIT, Mr. Black, Offer Nissim, Hi Profile",
     "album": "Mucho Bien",
-    "time": "1:48"
+    "time": "1:48",
+    "genre": "Поп-музыка"
   },
   {
     "title": "Knives n Cherries",
     "author": "minthaze",
     "album": "Captivating",
-    "time": "5:20"
+    "time": "5:20",
+    "genre": "Поп-музыка"
   },
   {
     "title": "How Deep Is Your Love",
     "author": "Calvin Harris, Disciples",
     "album": "How Deep Is Your Love",
-    "time": "3:32"
+    "time": "3:32",
+    "genre": "Рок"
   },
   {
     "title": "Morena",
     "author": "Tom Boxer",
     "album": "Soundz Made in Romania",
-    "time": "3:36"
+    "time": "3:36",
+    "genre": "Рок"
   }
 ]
