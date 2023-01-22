@@ -1,10 +1,8 @@
 function CenterBlock() {
   return (
-    <div className="main__centerblock centerblock">
-      <div className="centerblock__search search">
-        <CenterBlockSearchLogo />
-        <CenterBlockSearchInput />
-      </div>
+    <div className="centerblock__search search">
+      <CenterBlockSearchLogo />
+      <CenterBlockSearchInput />
     </div>
   );
 }

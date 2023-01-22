@@ -90,12 +90,12 @@ class ClickBurger extends React.Component {
   render() {
     const { click } = this.state;
     return (
-      <div>
+      <>
         <div onClick={this.handleClick} className="nav__burger burger">
           <this.BurgerLines />
         </div>
         {click && <this.FormMenuItems />}
-      </div>
+      </>
     );
   }
 }

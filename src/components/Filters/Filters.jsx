@@ -6,18 +6,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import { render } from '@testing-library/react';
 import React from 'react';
 
 const playlistArr = require('../Playlist.json');
 // let click = false;
 const { useState, useEffect } = React;
 function Filters() {
-  return (
-    <div className="centerblock__filter filter">
-      <div className="filter__title">Искать по:</div>
-      <FilterButtons />
-    </div>
-  );
+  return <ShowFilterMenu />;
 }
 export default Filters;
 function GetFilterList(list) {
@@ -29,13 +25,87 @@ function GetFilterList(list) {
   return <div className="filterBlock">{filteredList}</div>;
 }
 
-function MenuFilterBig(props) {
-  return <div className="filterMenu">{GetFilterList(props.list)}</div>;
+function MenuFilterBig({ list, classPosition }) {
+  return (
+    <div
+      className={
+        classPosition !== undefined
+          ? `filterMenu ${classPosition}`
+          : 'filterMenu'
+      }
+    >
+      {GetFilterList(list)}
+    </div>
+  );
 }
 
-function MenuFilterYear() {
+function ShowFilterMenu() {
+  const [selectFilter, setSelectFilter] = useState('');
+  const positionFilterMenu = {
+    'button-author': 'filterMenuAuthor',
+    'button-year': 'filterMenuYearAdd',
+    'button-genre': 'filterMenuGenre',
+    '': undefined,
+  };
+  const filteredListAuthor = playlistArr.map((track) => track.author);
+  const filteredListGenre = playlistArr.map((track) => track.genre);
+  const sortListTrack = (listTrack) => {
+    const filteredListGroup = [];
+    listTrack.forEach((track) => {
+      if (!filteredListGroup.includes(track)) {
+        filteredListGroup.push(track);
+      }
+    });
+    return filteredListGroup;
+  };
+  const getFilteredList = (curButton) => {
+    if (curButton === 'button-author') {
+      return sortListTrack(filteredListAuthor);
+    }
+    if (curButton === 'button-genre') {
+      return sortListTrack(filteredListGenre);
+    }
+    return [];
+  };
+  const onClick = (filter) => {
+    /*     if (selectFilter === filter) {
+      setSelectFilter('');
+    } else {
+      setSelectFilter(filter);
+    } */
+
+    setSelectFilter((prevState) => (prevState === filter ? '' : filter));
+    render();
+  };
+  const showMenu =
+    selectFilter === 'button-year' ? (
+      <MenuFilterYear classPosition={positionFilterMenu[selectFilter]} />
+    ) : (
+      <MenuFilterBig
+        list={getFilteredList(selectFilter)}
+        classPosition={positionFilterMenu[selectFilter]}
+      />
+    );
+
   return (
-    <div className="filterMenuYear">
+    <>
+      <div className="centerblock__filter filter">
+        <div className="filter__title">Искать по:</div>
+        <FilterButtons OnClickFunc={onClick} selectFilter={selectFilter} />
+      </div>
+      <div className="filteredMenu">{selectFilter !== '' && showMenu}</div>
+    </>
+  );
+}
+function MenuFilterYear({ classPosition }) {
+  return (
+    <div
+      className={
+        classPosition !== undefined
+          ? `filterMenuYear ${classPosition}`
+          : 'filterMenuYear'
+      }
+    >
       <input
         className="checkYear"
         type="radio"
@@ -60,8 +130,8 @@ function MenuFilterYear() {
     </div>
   );
 }
-function FilterButtons() {
-  const [selectFilter, setSelectFilter] = useState('');
+
+function FilterButtons({ OnClickFunc, selectFilter }) {
   const btnClickClass = '_btn-text_click';
 
   const btnObject = {
@@ -71,59 +141,20 @@ function FilterButtons() {
   };
 
   let arrKeysBtnObject = [];
-  const filteredListAuthor = playlistArr.map((track) => track.author);
-  const filteredListGenre = playlistArr.map((track) => track.genre);
-  const sortListTrack = (listTrack) => {
-    const filteredListGroup = [];
-    listTrack.forEach((track) => {
-      if (!filteredListGroup.includes(track)) {
-        filteredListGroup.push(track);
-      }
-    });
-    return filteredListGroup;
-  };
-  const onClick = (filter) => {
-    if (selectFilter === filter) {
-      setSelectFilter('');
-    } else {
-      setSelectFilter(filter);
-    }
 
-    /* setClicks(!click); */
-  };
   arrKeysBtnObject = Object.keys(btnObject);
-  const getFilteredList = (curButton) => {
-    if (curButton === 'button-author') {
-      return sortListTrack(filteredListAuthor);
-    }
-    if (curButton === 'button-genre') {
-      return sortListTrack(filteredListGenre);
-    }
-    return [];
-  };
 
-  arrKeysBtnObject = arrKeysBtnObject.map((filter, index) => {
-    const showMenu =
-      filter === 'button-year' ? (
-        <MenuFilterYear />
-      ) : (
-        <MenuFilterBig list={getFilteredList(filter)} />
-      );
-    return (
-      <>
-        <div
-          key={index.toString()}
-          onClick={() => onClick(filter)}
-          className={`filter__button ${filter} _btn-text${
-            selectFilter === filter ? ` ${btnClickClass}` : ''
-          }`}
-        >
-          {btnObject[filter]}
-        </div>
-        {selectFilter === filter && showMenu}
-      </>
-    );
-  });
+  arrKeysBtnObject = arrKeysBtnObject.map((filter, index) => (
+    <div
+      key={index.toString()}
+      onClick={() => OnClickFunc(filter)}
+      className={`filter__button ${filter} _btn-text${
+        selectFilter === filter ? ` ${btnClickClass}` : ''
+      }`}
+    >
+      {btnObject[filter]}
+    </div>
+  ));
 
   return arrKeysBtnObject;
 }

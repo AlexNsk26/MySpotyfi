@@ -14,7 +14,7 @@
 a,
 a:visited {
   text-decoration: none;
-  font-family: 'StratosSkyeng', sans-serif;
+  font-family: 'StratosSkyeng';
   cursor: pointer;
 }
 
@@ -30,8 +30,8 @@ ul li {
 @font-face {
   font-family: 'StratosSkyeng';
   src: local('StratosSkyeng'), local('StratosSkyeng'),
-    url('./fonts/Stratos-Black.woff2') format('woff2'),
-    url('./fonts/Stratos-Black.woff') format('woff');
+    url('./fonts/Stratos-Regular.woff2') format('woff2'),
+    url('./fonts/Stratos-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
 }
@@ -40,15 +40,15 @@ html,
 body {
   width: 100%;
   height: 100%;
-  font-family: 'StratosSkyeng', sans-serif;
   color: #ffffff;
 }
 
 .wrapper {
+  font-family: 'StratosSkyeng';
   width: 100%;
   min-height: 100%;
   overflow: hidden;
-  background-color: #383838;
+  background-color: #181818;
 }
 
 .container {
@@ -97,8 +97,8 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
@@ -478,6 +478,10 @@ body {
   line-height: 24px;
   color: #696969;
 }
+.track__time {
+  display: flex;
+  align-items: center;
+}
 
 .track__time-svg {
   width: 14px;
@@ -781,6 +785,7 @@ body {
 }
 
 .track-play__author-link {
+  font-family: StratosSkyeng;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -874,21 +879,56 @@ body {
 }
 
 .volume__progress-line {
-  width: 109px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 /* My additions start*/
-
+.progress_line::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  width: 26px;
+  height: 0px;
+  border: 2px solid #ffffff;
+  margin-top: -14px;
+}
+.progress_line::-ms-fill-upper {
+}
+.progress_line::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+}
+.progress_line::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  width: 12px;
+  height: 12px;
+  background: #1a1a1a;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  margin-top: -7px;
+}
 .filterMenu {
   width: 248px;
   height: 305px;
   position: relative;
-  top: 190px;
-  right: 140px;
+  top: -30px;
   background: #313131;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  z-index: 100;
+}
+.filterMenuAuthor {
+  left: 80px;
+}
+.filterMenuYearAdd {
+  left: 230px;
+}
+.filterMenuGenre {
+  left: 370px;
+}
+.filteredMenu{
+  height: 1px;
 }
 .filterBlock::-webkit-scrollbar {
   width: 4px;
@@ -1002,19 +1042,19 @@ body {
   background: #313131;
   border-radius: 12px;
   position: relative;
-  top: 80px;
+  top: -30px;
   right: 140px;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 }
 .checkYear {
-  box-sizing: border-box;  
+  box-sizing: border-box;
   width: 18px;
   height: 18px;
   border: 1px solid #ffffff;
-  margin-left: 14px; 
- 
-}/* 
+  margin-left: 14px;
+} /* 
 .checkYear + label::before{
   content: '';
   border-radius: 100%;
@@ -1041,4 +1081,21 @@ body {
   order: 1;
   flex-grow: 0; */
 }
+.trackGroup {
+  display: flex;
+  flex-direction: column;
+}
 /* My additions end*/
+.centerblock__h2 {
+  font-family: 'StratosSkyeng';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 64px;
+  /* or 107% */
+
+  letter-spacing: -0.013em;
+  font-feature-settings: 'pnum' on, 'lnum' on;
+
+  color: #ffffff;
+}

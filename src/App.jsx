@@ -33,11 +33,13 @@ function App() {
       <div className="container">
         <main className="main">
           <MainNavigation />
-          <CenterBlock />
-          <TrackHeader />
-          <Filters />
-          <PlaylistTitle />
-          {IsLoading ? <SceletonTrackMain /> : <Playlist />}
+          <div className="main__centerblock centerblock">
+            <CenterBlock />
+            <TrackHeader />
+            <Filters />
+            <PlaylistTitle />
+            {IsLoading ? <SceletonTrackMain /> : <Playlist />}
+          </div>
           {IsLoading ? <SidebarSceleton /> : <Sidebar />}
         </main>
         <Player IsLoading={IsLoading} />
