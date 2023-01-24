@@ -8,6 +8,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { render } from '@testing-library/react';
 import React from 'react';
+import * as S from './FilterStyle';
 
 const playlistArr = require('../Playlist.json');
 // let click = false;
@@ -18,9 +19,10 @@ function Filters() {
 export default Filters;
 function GetFilterList(list) {
   const filteredList = list.map((titleTrack, index) => (
-    <p key={index.toString()} className="filterTrack">
-      {titleTrack}
-    </p>
+    <S.FilterTrackHover>
+      {' '}
+      <S.FilterTrack key={index.toString()}>{titleTrack}</S.FilterTrack>
+    </S.FilterTrackHover>
   ));
   return <div className="filterBlock">{filteredList}</div>;
 }
