@@ -1,14 +1,15 @@
 import iconSvg from '../mainIcons/sprite.svg';
 import { SceletonTrackPlayer } from '../Others/Sceleton';
+import * as S from './PlayerStyle';
 
 function Player(props) {
   return (
-    <div className="bar">
-      <div className="bar__content">
-        <div className="bar__player-progress" />
-        <div className="bar__player-block">
-          <div className="bar__player player">
-            <div className="player__controls">
+    <S.Bar>
+      <S.BarContent>
+        <S.BarPlayerProgress />
+        <S.BarPlayerBlock>
+          <S.BarPlayer>
+            <S.Playercontrols>
               <PlayerControls
                 list={[
                   `${iconSvg}#icon-prev`,
@@ -18,47 +19,46 @@ function Player(props) {
                   `${iconSvg}#icon-shuffle`,
                 ]}
               />
-            </div>
-            <div className="player__track-play track-play">
+            </S.Playercontrols>
+            <S.PlayerTrackPlay>
               {props.IsLoading ? (
                 <SceletonTrackPlayer />
               ) : (
                 <TrackPlay authorLink="Ты та..." albumLink="Баста" />
               )}
-            </div>
+            </S.PlayerTrackPlay>
 
-            <div className="track-play__like-dis">
-              <div className="track-play__like _btn-icon">
-                <svg className="track-play__like-svg" alt="like">
+            <S.TrackPlayLikeDis>
+              <S.TrackPlayLikeDisIcon>
+                <S.TrackPlayLikeDisSvg $like="like" alt="like">
                   <use xlinkHref={`${iconSvg}#icon-like`} />
-                </svg>
-              </div>
-              <div className="track-play__dislike _btn-icon">
-                <svg className="track-play__dislike-svg" alt="dislike">
+                </S.TrackPlayLikeDisSvg>
+              </S.TrackPlayLikeDisIcon>
+
+              <S.TrackPlayLikeDisIcon $dislike="dislike">
+                <S.TrackPlayLikeDisSvg $like="dislike" alt="dislike">
                   <use xlinkHref={`${iconSvg}#icon-dislike`} />
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div className="bar__volume-block volume">
-            <div className="volume__content">
-              <div className="volume__image">
-                <svg className="volume__svg" alt="volume">
+                </S.TrackPlayLikeDisSvg>
+              </S.TrackPlayLikeDisIcon>
+            </S.TrackPlayLikeDis>
+          </S.BarPlayer>
+
+          <S.BarVolumeBlock>
+            <S.VolumeContent>
+              <S.VolumeImage>
+                <S.VolumeSvg alt="volume">
                   <use xlinkHref={`${iconSvg}#icon-volume`} />
-                </svg>
-              </div>
-              <div className="volume__progress _btn">
-                <input
-                  className="volume__progress-line _btn progress_line"
-                  type="range"
-                  name="range"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                </S.VolumeSvg>
+              </S.VolumeImage>
+
+              <S.VolumeProgress>
+                <S.VolumeProgressLine type="range" name="range" />
+              </S.VolumeProgress>
+            </S.VolumeContent>
+          </S.BarVolumeBlock>
+        </S.BarPlayerBlock>
+      </S.BarContent>
+    </S.Bar>
   );
 }
 export default Player;
@@ -67,11 +67,11 @@ function PlayerControls(props) {
   const { list } = props;
   for (let index = 0; index < list.length; index++) {
     content.push(
-      <div key={index.toString()} className="player__btn-prev">
-        <svg className="player__btn-prev-svg" alt="prev">
+      <S.PlayerBtn key={index.toString()}>
+        <S.PlayerBtnSvg $btn={list[index]} alt="prev">
           <use xlinkHref={list[index]} />
-        </svg>
-      </div>
+        </S.PlayerBtnSvg>
+      </S.PlayerBtn>
     );
   }
   return content;
@@ -79,23 +79,23 @@ function PlayerControls(props) {
 function TrackPlay(props) {
   return (
     <>
-      <div className="track-play__image">
-        <svg className="track-play__svg" alt="music">
+      <S.TrackPlayImage>
+        <S.TrackPlaySvg alt="music">
           <use xlinkHref={`${iconSvg}#icon-note`} />
-        </svg>
-      </div>
-      <div className="trackGroup">
-        <div className="track-play__author">
-          <a className="track-play__author-link" href="http://">
+        </S.TrackPlaySvg>
+      </S.TrackPlayImage>
+      <S.TrackGroup>
+        <S.TrackPlayAuthor>
+          <S.TrackPlayAuthorLink href="http://">
             {props.authorLink}
-          </a>
-        </div>
-        <div className="track-play__album">
-          <a className="track-play__album-link" href="http://">
+          </S.TrackPlayAuthorLink>
+        </S.TrackPlayAuthor>
+        <S.TrackPlayAlbum>
+          <S.TrackPlayAlbumLink href="http://">
             {props.albumLink}
-          </a>
-        </div>
-      </div>
+          </S.TrackPlayAlbumLink>
+        </S.TrackPlayAlbum>
+      </S.TrackGroup>
     </>
   );
 }

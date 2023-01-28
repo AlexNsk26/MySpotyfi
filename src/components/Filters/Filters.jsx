@@ -19,36 +19,22 @@ function Filters() {
 export default Filters;
 function GetFilterList(list) {
   const filteredList = list.map((titleTrack, index) => (
-    <S.FilterTrackHover>
-      {' '}
-      <S.FilterTrack key={index.toString()}>{titleTrack}</S.FilterTrack>
-    </S.FilterTrackHover>
+    <S.FilterTrack key={index.toString()}>{titleTrack}</S.FilterTrack>
   ));
-  return <div className="filterBlock">{filteredList}</div>;
+  return <S.filterBlock>{filteredList}</S.filterBlock>;
 }
 
 function MenuFilterBig({ list, classPosition }) {
   return (
-    <div
-      className={
-        classPosition !== undefined
-          ? `filterMenu ${classPosition}`
-          : 'filterMenu'
-      }
-    >
+    <S.filterMenu $classPosition={classPosition}>
       {GetFilterList(list)}
-    </div>
+    </S.filterMenu>
   );
 }
 
 function ShowFilterMenu() {
   const [selectFilter, setSelectFilter] = useState('');
-  const positionFilterMenu = {
-    'button-author': 'filterMenuAuthor',
-    'button-year': 'filterMenuYearAdd',
-    'button-genre': 'filterMenuGenre',
-    '': undefined,
-  };
+
   const filteredListAuthor = playlistArr.map((track) => track.author);
   const filteredListGenre = playlistArr.map((track) => track.genre);
   const sortListTrack = (listTrack) => {
@@ -70,45 +56,33 @@ function ShowFilterMenu() {
     return [];
   };
   const onClick = (filter) => {
-    /*     if (selectFilter === filter) {
-      setSelectFilter('');
-    } else {
-      setSelectFilter(filter);
-    } */
-
     setSelectFilter((prevState) => (prevState === filter ? '' : filter));
     render();
   };
   const showMenu =
     selectFilter === 'button-year' ? (
-      <MenuFilterYear classPosition={positionFilterMenu[selectFilter]} />
+      <MenuFilterYear classPosition={selectFilter} />
     ) : (
       <MenuFilterBig
         list={getFilteredList(selectFilter)}
-        classPosition={positionFilterMenu[selectFilter]}
+        classPosition={selectFilter}
       />
     );
 
   return (
     <>
-      <div className="centerblock__filter filter">
-        <div className="filter__title">Искать по:</div>
+      <S.CenterblockFilter>
+        <S.filterTitle>Искать по:</S.filterTitle>
         <FilterButtons OnClickFunc={onClick} selectFilter={selectFilter} />
-      </div>
-      <div className="filteredMenu">{selectFilter !== '' && showMenu}</div>
+      </S.CenterblockFilter>
+      <S.filteredMenu>{selectFilter !== '' && showMenu}</S.filteredMenu>
     </>
   );
 }
 function MenuFilterYear({ classPosition }) {
   return (
-    <div
-      className={
-        classPosition !== undefined
-          ? `filterMenuYear ${classPosition}`
-          : 'filterMenuYear'
-      }
-    >
-      <input
+    <S.filterMenuYear $classPosition={classPosition}>
+      <S.checkYear
         className="checkYear"
         type="radio"
         name="yearRadio"
@@ -116,26 +90,21 @@ function MenuFilterYear({ classPosition }) {
         checked
         value="new"
       />
-      <label className="labelRadio" htmlFor="1">
-        Более новые
-      </label>
-      <input
+      <S.labelRadio htmlFor="1">Более новые</S.labelRadio>
+
+      <S.checkYear
         className="checkYear"
         type="radio"
         name="yearRadio"
         id="2"
         value="old"
       />
-      <label className="labelRadio" htmlFor="2">
-        Более старые
-      </label>
-    </div>
+      <S.labelRadio htmlFor="2">Более старые</S.labelRadio>
+    </S.filterMenuYear>
   );
 }
 
 function FilterButtons({ OnClickFunc, selectFilter }) {
-  const btnClickClass = '_btn-text_click';
-
   const btnObject = {
     'button-author': 'исполнителю',
     'button-year': 'году выпуска',
@@ -147,15 +116,13 @@ function FilterButtons({ OnClickFunc, selectFilter }) {
   arrKeysBtnObject = Object.keys(btnObject);
 
   arrKeysBtnObject = arrKeysBtnObject.map((filter, index) => (
-    <div
+    <S.filterButton
       key={index.toString()}
       onClick={() => OnClickFunc(filter)}
-      className={`filter__button ${filter} _btn-text${
-        selectFilter === filter ? ` ${btnClickClass}` : ''
-      }`}
+      $clickBtn={selectFilter === filter}
     >
       {btnObject[filter]}
-    </div>
+    </S.filterButton>
   ));
 
   return arrKeysBtnObject;

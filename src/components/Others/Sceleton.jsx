@@ -1,20 +1,23 @@
+import * as S from './OtherStyle';
+
 export function SceletonTrackMain() {
   return (
-    <div className="centerblock__content">
+    <S.CenterBlockContent>
       <ArrTracksSceleton listLength={9} />
-    </div>
+    </S.CenterBlockContent>
   );
 }
 const ArrTracksSceleton = (props) => {
   const content = [];
   for (let index = 0; index < props.listLength; index++) {
     content.push(
-      <div key={index.toString()} className="sceleton_mainTrack">
+      <S.SceletonMainTrack key={index.toString()}>
         <SceletonTrackImage />
-        <div className="Sceleton sceleton_trackTitle" />
-        <div className="Sceleton sceleton_trackAuthor" />
-        <div className="Sceleton sceleton_trackAlbum" />
-      </div>
+        <S.SceletonTrackTitle />
+        <S.SceletonTrackAuthor />
+        <S.SceletonTrackAlbum />
+        <S.SceletonTrackTime />
+      </S.SceletonMainTrack>
     );
   }
   return content;
@@ -22,50 +25,44 @@ const ArrTracksSceleton = (props) => {
 
 export function SceletonTrackPlayer() {
   return (
-    <div className="sceleton_TrackPlayer">
+    <S.SceletonTrackPlayer>
       <SceletonTrackImage />
-      <div className="sceleton_trackPlayerTitles">
-        <div className="Sceleton sceleton_trackPlayerTitle" />
-        <div className="Sceleton sceleton_trackPlayerTitle" />
-      </div>
-    </div>
+      <S.SceletonTrackPlayerTitles>
+        <S.SceletonTrackPlayerTitle />
+        <S.SceletonTrackPlayerTitle />
+      </S.SceletonTrackPlayerTitles>
+    </S.SceletonTrackPlayer>
   );
 }
 
 export function SceletonPlaylistImg() {
-  return <div className="Sceleton sceleton_playlistImg" />;
+  return <S.SceletonPlaylistImg />;
 }
 
 function SceletonTrackImage() {
-  return <div className="Sceleton sceleton_trackImage" />;
+  return <S.SceletonTrackImage />;
 }
 
 export function SidebarSceleton() {
   return (
-    <div className="main__sidebar sidebar">
-      <div className="sidebar__personal">
-        <p className="sidebar__personal-name">Sergey.Ivanov</p>
-        <div className="sidebar__avatar" />
-      </div>
-      <div className="sidebar__block">
-        <div className="sidebar__list">
+    <S.MainSidebar>
+      <S.SidebarPersonal>
+        <S.SidebarPersonalName>Sergey.Ivanov</S.SidebarPersonalName>
+        <S.SidebarAvatar />
+      </S.SidebarPersonal>
+      <S.SidebarBlock>
+        <S.SidebarList>
           <SidebarListSceleton />
-        </div>
-      </div>
-    </div>
+        </S.SidebarList>
+      </S.SidebarBlock>
+    </S.MainSidebar>
   );
 }
 
 function SidebarListSceleton() {
   const list = [];
   for (let index = 0; index < 3; index++) {
-    list.push(
-      <div
-        key={index.toString()}
-        className="Sceleton sidebar__item sceleton_playlistImg"
-      />
-    );
+    list.push(<S.SidebarItemSceleton key={index.toString()} />);
   }
-
   return list;
 }
