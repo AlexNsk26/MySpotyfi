@@ -1,6 +1,7 @@
 import iconSvg from '../mainIcons/sprite.svg';
+import { SceletonTrackPlayer } from '../Others/Sceleton';
 
-function Player() {
+function Player(props) {
   return (
     <div className="bar">
       <div className="bar__content">
@@ -19,7 +20,11 @@ function Player() {
               />
             </div>
             <div className="player__track-play track-play">
-              <TrackPlay authorLink="Ты та..." albumLink="Баста" />
+              {props.IsLoading ? (
+                <SceletonTrackPlayer />
+              ) : (
+                <TrackPlay authorLink="Ты та..." albumLink="Баста" />
+              )}
             </div>
 
             <div className="track-play__like-dis">
@@ -35,20 +40,20 @@ function Player() {
               </div>
             </div>
           </div>
-        </div>
-        <div className="bar__volume-block volume">
-          <div className="volume__content">
-            <div className="volume__image">
-              <svg className="volume__svg" alt="volume">
-                <use xlinkHref={`${iconSvg}#icon-volume`} />
-              </svg>
-            </div>
-            <div className="volume__progress _btn">
-              <input
-                className="volume__progress-line _btn"
-                type="range"
-                name="range"
-              />
+          <div className="bar__volume-block volume">
+            <div className="volume__content">
+              <div className="volume__image">
+                <svg className="volume__svg" alt="volume">
+                  <use xlinkHref={`${iconSvg}#icon-volume`} />
+                </svg>
+              </div>
+              <div className="volume__progress _btn">
+                <input
+                  className="volume__progress-line _btn progress_line"
+                  type="range"
+                  name="range"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -79,15 +84,17 @@ function TrackPlay(props) {
           <use xlinkHref={`${iconSvg}#icon-note`} />
         </svg>
       </div>
-      <div className="track-play__author">
-        <a className="track-play__author-link" href="http://">
-          {props.authorLink}
-        </a>
-      </div>
-      <div className="track-play__album">
-        <a className="track-play__album-link" href="http://">
-          {props.albumLink}
-        </a>
+      <div className="trackGroup">
+        <div className="track-play__author">
+          <a className="track-play__author-link" href="http://">
+            {props.authorLink}
+          </a>
+        </div>
+        <div className="track-play__album">
+          <a className="track-play__album-link" href="http://">
+            {props.albumLink}
+          </a>
+        </div>
       </div>
     </>
   );

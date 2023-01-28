@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import iconSvg from '../mainIcons/sprite.svg';
 
 const playlistArr = require('../Playlist.json');
@@ -29,8 +30,8 @@ export function Playlist() {
 function PlaylistTitles(props) {
   const { titleObject } = props;
 
-  const arrTitleObject = Object.keys(titleObject);
-  arrTitleObject.map((numberList, index) => (
+  let arrTitleObject = Object.keys(titleObject);
+  arrTitleObject = arrTitleObject.map((numberList, index) => (
     <div
       // eslint-disable-next-line react/no-array-index-key
       key={index.toString()}
@@ -54,7 +55,6 @@ function PlaylistItems() {
 function PlaylistItem(props) {
   let { playlist } = props;
   playlist = playlist.map((track, index) => (
-    // eslint-disable-next-line react/no-array-index-key
     <div key={index.toString()} className="playlist__item">
       <div className="playlist__track track">
         <TrackTitle title={track.title} />

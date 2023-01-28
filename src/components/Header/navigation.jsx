@@ -6,40 +6,27 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-constructor */
 import React from 'react';
+import * as S from './HeaderStyle';
 import logo from './img/logo.png';
 
 // const { useState } = React;
 
 function MainNavigation(props) {
   return (
-    <nav className="main__nav nav">
-      <div className="nav__logo logo">
+    <S.MainNav>
+      <S.NavLogo>
         <Logo />
-      </div>
+      </S.NavLogo>
       <ClickBurger />
-    </nav>
+    </S.MainNav>
   );
 }
 export default MainNavigation;
 
-/* function MenuItems(props) {
-  const content = [];
-  for (let index = 0; index < props.items.length; index++) {
-    content.push(
-      <li key={String(index)} className="menu__item">
-        <a href="http://" className="menu__link">
-          {props.items[index]}
-        </a>
-      </li>
-    );
-  }
-  return content;
-} */
 function Logo() {
-  return <img className="logo__image" src={logo} alt="logo" />;
+  return <S.LogoImage src={logo} alt="logo" />;
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
 class ClickBurger extends React.Component {
   constructor() {
     super();
@@ -52,28 +39,17 @@ class ClickBurger extends React.Component {
     const content = [];
     let { items } = this;
     items = items.map((item, index) => (
-      <li key={String(index)} className="menu__item">
-        <a href="http://" className="menu__link">
-          {item}
-        </a>
-      </li>
+      <S.MenuItem key={String(index)}>
+        <S.MenuLink href="http://">{item}</S.MenuLink>
+      </S.MenuItem>
     ));
-    /*   for (let index = 0; index < items.length; index++) {
-      content.push(
-        <li key={String(index)} className="menu__item">
-          <a href="http://" className="menu__link">
-            {items[index]}
-          </a>
-        </li>
-      );
-    } */
     return items;
   };
 
   BurgerLines = () => {
     const content = [];
     for (let i = 0; i < 3; i++) {
-      content.push(<span key={i.toString()} className="burger__line" />);
+      content.push(<S.BurgerLine key={i.toString()} />);
     }
     return content;
   };
@@ -82,20 +58,21 @@ class ClickBurger extends React.Component {
   handleClick = () => this.setState({ click: !this.state.click });
 
   FormMenuItems = () => (
-    <div className="nav__menu menu">
-      <ul className="menu__list">{this.MenuItems()}</ul>
-    </div>
+    <S.NavMenu>
+      <S.MenuList>{this.MenuItems()}</S.MenuList>
+    </S.NavMenu>
   );
 
   render() {
     const { click } = this.state;
     return (
-      <div>
-        <div onClick={this.handleClick} className="nav__burger burger">
+      <>
+        <S.NavBurger onClick={this.handleClick}>
           <this.BurgerLines />
-        </div>
+        </S.NavBurger>
+
         {click && <this.FormMenuItems />}
-      </div>
+      </>
     );
   }
 }
