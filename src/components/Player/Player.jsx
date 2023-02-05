@@ -1,22 +1,45 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable no-unused-vars */
+import React from 'react';
+import useSound from 'use-sound';
+import { render } from '@testing-library/react';
+import trackSrc from './Bobby_Marleni_-_Dropin.mp3';
 import iconSvg from '../mainIcons/sprite.svg';
 import { SceletonTrackPlayer } from '../Others/Sceleton';
 import * as S from './PlayerStyle';
 
+const { useRef, useState, useEffect, forwardRef } = React;
 function Player(props) {
+  const [audio] = useState(new Audio(trackSrc));
+  const [isPlaying, setPlayBtn] = useState(false);
+
+  const ChangeVolume = (e) => {
+    const { target } = e;
+    audio.volume = target.valueAsNumber / 100;
+  };
+
   return (
     <S.Bar>
       <S.BarContent>
-        <S.BarPlayerProgress />
+        <GetProgressBar
+          audio={audio}
+          isPlaying={isPlaying}
+          /* timerId={timerId}
+          setTimerId={setTimerId} */
+        />
         <S.BarPlayerBlock>
           <S.BarPlayer>
             <S.Playercontrols>
               <PlayerControls
+                isPlaying={isPlaying}
+                setPlayBtn={setPlayBtn}
+                audio={audio}
                 list={[
-                  `${iconSvg}#icon-prev`,
-                  `${iconSvg}#icon-play`,
-                  `${iconSvg}#icon-next`,
-                  `${iconSvg}#icon-repeat`,
-                  `${iconSvg}#icon-shuffle`,
+                  { title: 'prev', svg: `${iconSvg}#icon-prev` },
+                  { title: 'play', svg: `${iconSvg}#icon-play` },
+                  { title: 'next', svg: `${iconSvg}#icon-next` },
+                  { title: 'repeat', svg: `${iconSvg}#icon-repeat` },
+                  { title: 'shuffle', svg: `${iconSvg}#icon-shuffle` },
                 ]}
               />
             </S.Playercontrols>
@@ -52,7 +75,11 @@ function Player(props) {
               </S.VolumeImage>
 
               <S.VolumeProgress>
-                <S.VolumeProgressLine type="range" name="range" />
+                <S.VolumeProgressLine
+                  onChange={ChangeVolume}
+                  type="range"
+                  name="range"
+                />
               </S.VolumeProgress>
             </S.VolumeContent>
           </S.BarVolumeBlock>
@@ -62,16 +89,87 @@ function Player(props) {
   );
 }
 export default Player;
-function PlayerControls(props) {
+
+function GetProgressBar({ audio, isPlaying }) {
+  const [progress, setProgress] = useState(0);
+  let timerId;
+  const maxTime = audio.duration;
+  const { currentTime } = audio;
+  const duration = (currentTime / maxTime) * 100;
+
+  useEffect(() => {
+    if (isPlaying) {
+      timerId = setInterval(
+        () => setProgress((audio.currentTime / audio.duration) * 100),
+        100
+      );
+    }
+    return () => clearInterval(timerId);
+  });
+
+  return (
+    <S.BarPlayerProgress>
+      <S.BarPlayerProgressPlayed $duration={String(progress)} />
+    </S.BarPlayerProgress>
+  );
+}
+
+function PlayerControls({ list, audio, isPlaying, setPlayBtn }) {
   const content = [];
-  const { list } = props;
+
+  const playerBtnPlay = useRef(null);
+
+  function handelClickPlayerBtn(e) {
+    const { target } = e;
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+    setPlayBtn(!isPlaying);
+  }
+
+  useEffect(() => {
+    const btnPlay = playerBtnPlay.current;
+    btnPlay.addEventListener('click', handelClickPlayerBtn);
+  });
+
+  useEffect(() => {
+    audio.addEventListener('ended', () => setPlayBtn(!isPlaying));
+    return () => {
+      audio.removeEventListener('ended', () => setPlayBtn(!isPlaying));
+    };
+  });
+
   for (let index = 0; index < list.length; index++) {
-    content.push(
+    const PlayBtn = forwardRef((props, ref) => {
+      const srcPlay = list[index].svg;
+      const srcPause = `${iconSvg}#icon-pause`;
+      const altPlay = list[index].title;
+      return (
+        <S.PlayerBtn ref={ref} key={index.toString()}>
+          <S.PlayerBtnSvg
+            $btn={isPlaying ? srcPause : srcPlay}
+            alt={isPlaying ? 'pause' : altPlay}
+          >
+            <use xlinkHref={isPlaying ? srcPause : srcPlay} />
+          </S.PlayerBtnSvg>
+        </S.PlayerBtn>
+      );
+    });
+    const defaultBtn = (
       <S.PlayerBtn key={index.toString()}>
-        <S.PlayerBtnSvg $btn={list[index]} alt="prev">
-          <use xlinkHref={list[index]} />
+        <S.PlayerBtnSvg $btn={list[index].svg} alt={list[index].title}>
+          <use xlinkHref={list[index].svg} />
         </S.PlayerBtnSvg>
       </S.PlayerBtn>
+    );
+    content.push(
+      list[index].title === 'play' ? (
+        <PlayBtn ref={playerBtnPlay} />
+      ) : (
+        defaultBtn
+      )
     );
   }
   return content;

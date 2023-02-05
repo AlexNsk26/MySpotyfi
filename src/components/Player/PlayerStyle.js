@@ -22,6 +22,17 @@ export const BarPlayerProgress = styled.div`
   width: 100%;
   height: 5px;
   background: #2e2e2e;
+  display: flex;
+  align-items: center;
+`;
+
+export const BarPlayerProgressPlayed = styled.div`
+  width: ${({ $duration }) => `${$duration}%`};
+  height: 5px;
+  background: #b672ff;
+  &:hover {
+    height: 8px;
+  }
 `;
 
 export const BarPlayerBlock = styled.div`
@@ -202,7 +213,7 @@ export const VolumeProgressLine = styled.input`
 
 const PlayerBtnPlaySvg = (button) => {
   const nameBtn = button.split('-');
-  if (nameBtn.includes('play')) {
+  if (nameBtn.includes('play') || nameBtn.includes('pause')) {
     return css`
       width: 22px;
       height: 20px;
