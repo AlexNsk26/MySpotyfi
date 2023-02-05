@@ -2,8 +2,6 @@
 import iconSvg from '../mainIcons/sprite.svg';
 import * as S from './PlaylistStyle';
 
-const playlistArr = require('../Playlist.json');
-
 export function PlaylistTitle() {
   return (
     <S.CenterblockContent>
@@ -20,10 +18,10 @@ export function PlaylistTitle() {
     </S.CenterblockContent>
   );
 }
-export function Playlist() {
+export function Playlist({ playlistArr }) {
   return (
     <S.ContentPlaylist>
-      <PlaylistItems />
+      <PlaylistItems playlistArr={playlistArr} />
     </S.ContentPlaylist>
   );
 }
@@ -46,7 +44,7 @@ function PlaylistTitles(props) {
 
   return arrTitleObject;
 }
-function PlaylistItems() {
+function PlaylistItems({ playlistArr }) {
   return <PlaylistItem playlist={playlistArr} />;
 }
 function PlaylistItem(props) {

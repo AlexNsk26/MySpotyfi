@@ -223,3 +223,22 @@ export const SidebarImg = styled.img`
   width: 100%;
   height: auto;
 `;
+
+export const Error404 = styled.p`
+  display: block;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 46px;
+  line-height: 24px;
+  color: #fff;
+  margin-top: 25px;
+`;
+
+export const CenterBlock = styled.div`
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;

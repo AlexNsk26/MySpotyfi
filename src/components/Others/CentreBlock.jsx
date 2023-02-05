@@ -10,8 +10,8 @@ function CenterBlock() {
   );
 }
 export default CenterBlock;
-export function TrackHeader() {
-  return <S.CenterBlockH2>Треки</S.CenterBlockH2>;
+export function TrackHeader({ header }) {
+  return <S.CenterBlockH2>{header}</S.CenterBlockH2>;
 }
 function CenterBlockSearchLogo() {
   return (

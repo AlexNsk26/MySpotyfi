@@ -179,6 +179,7 @@ export const VolumeProgress = styled.div`
 
 export const VolumeProgressLine = styled.input`
   width: 109px;
+  -webkit-appearance: none;
   cursor: pointer;
   &::-webkit-slider-runnable-track {
     -webkit-appearance: none;

@@ -6,6 +6,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-constructor */
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as S from './HeaderStyle';
 import logo from './img/logo.png';
 
@@ -31,16 +32,31 @@ class ClickBurger extends React.Component {
   constructor() {
     super();
     this.state = { click: false };
-    this.items = ['Главное', 'Мой плейлист', 'Войти'];
+    this.items = [
+      { title: 'Главное', path: '/main' },
+      { title: 'Мой плейлист', path: '/sets/myPlaylist' },
+      { title: 'Выйти', path: '/' },
+    ];
     this.MenuItems = this.MenuItems.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
+
+  // RenderLink = (props) => <Link to={props.path}>{props.children}</Link>;
+  LogOut = (e) => {
+    sessionStorage.removeItem('MySpotyfiLogin');
+    const navigate = useNavigate();
+    e.preventDefault();
+    navigate('/login', { replace: true });
+  };
 
   MenuItems = () => {
     const content = [];
     let { items } = this;
     items = items.map((item, index) => (
       <S.MenuItem key={String(index)}>
-        <S.MenuLink href="http://">{item}</S.MenuLink>
+        <S.MenuLink onClick={this.LogOut} to={item.path}>
+          {item.title}
+        </S.MenuLink>
       </S.MenuItem>
     ));
     return items;
@@ -67,7 +83,7 @@ class ClickBurger extends React.Component {
     const { click } = this.state;
     return (
       <>
-        <S.NavBurger onClick={this.handleClick}>
+        <S.NavBurger onClick={() => this.handleClick()}>
           <this.BurgerLines />
         </S.NavBurger>
 
