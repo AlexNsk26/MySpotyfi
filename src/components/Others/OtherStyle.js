@@ -1,8 +1,13 @@
 import styled, { css } from 'styled-components';
 
+const CenterBlockSearchBorderTheme = {
+  darkTheme: '#4E4E4E',
+  lightTheme: '#D9D9D9',
+};
+
 export const CenterBlockSearch = styled.div`
   width: 100%;
-  border-bottom: 1px solid #4e4e4e;
+  border-bottom: 1px solid ${({ theme }) => CenterBlockSearchBorderTheme[theme]};
   margin-bottom: 51px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -16,6 +21,15 @@ export const CenterBlockSearch = styled.div`
   align-items: center;
 `;
 
+const ColorTheme = {
+  darkTheme: css`
+    color: #ffffff;
+  `,
+  lightTheme: css`
+    color: #000000;
+  `,
+};
+
 export const CenterBlockH2 = styled.h2`
   font-style: normal;
   font-weight: 400;
@@ -25,7 +39,7 @@ export const CenterBlockH2 = styled.h2`
   margin-bottom: 45px;
   letter-spacing: -0.013em;
   font-feature-settings: 'pnum' on, 'lnum' on;
-  color: #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
 `;
 
 export const SearchSvg = styled.svg`
@@ -47,10 +61,10 @@ export const SearchText = styled.input`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
   &::-webkit-input-placeholder {
     background-color: transparent;
-    color: #ffffff;
+    ${({ theme }) => ColorTheme[theme]};
     font-style: normal;
     font-weight: 400;
     font-size: 16px;

@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ContextTheme } from '../Others/Context';
 import * as S from './LoginStyles';
 import * as GS from '../../GlobalStyle';
 import Logo from './img/logo.png';
-// import CenterBlock from '../Others/CentreBlock';
-const { useState, useEffect } = React;
+
 const InputFields = [
   { name: 'login', placeholder: 'Логин', key: '1' },
   { name: 'Password', placeholder: 'Пароль', key: '2' },
@@ -13,10 +13,10 @@ const InputFields = [
 ];
 function Login() {
   const [signUp, setSignUp] = useState(0);
-
+  const { theme, setTheme } = useContext(ContextTheme);
   return (
-    <GS.Wrapper>
-      <GS.Container>
+    <GS.Wrapper theme={theme}>
+      <GS.Container theme={theme}>
         <GS.Main>
           <S.CenterBlock>
             <S.LoginMainBlock>

@@ -7,11 +7,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { render } from '@testing-library/react';
-import React from 'react';
+import React, { useContext } from 'react';
 import * as S from './FilterStyle';
+import { ContextTheme } from '../Others/Context';
 
 const playlistArr = require('../Playlist.json');
-// let click = false;
+
 const { useState, useEffect } = React;
 function Filters() {
   return <ShowFilterMenu />;
@@ -34,6 +35,7 @@ function MenuFilterBig({ list, classPosition }) {
 
 function ShowFilterMenu() {
   const [selectFilter, setSelectFilter] = useState('');
+  const { theme, setTheme } = useContext(ContextTheme);
 
   const filteredListAuthor = playlistArr.map((track) => track.author);
   const filteredListGenre = playlistArr.map((track) => track.genre);
@@ -72,8 +74,12 @@ function ShowFilterMenu() {
   return (
     <>
       <S.CenterblockFilter>
-        <S.filterTitle>Искать по:</S.filterTitle>
-        <FilterButtons OnClickFunc={onClick} selectFilter={selectFilter} />
+        <S.filterTitle theme={theme}>Искать по:</S.filterTitle>
+        <FilterButtons
+          theme={theme}
+          OnClickFunc={onClick}
+          selectFilter={selectFilter}
+        />
       </S.CenterblockFilter>
       <S.filteredMenu>{selectFilter !== '' && showMenu}</S.filteredMenu>
     </>
@@ -104,7 +110,7 @@ function MenuFilterYear({ classPosition }) {
   );
 }
 
-function FilterButtons({ OnClickFunc, selectFilter }) {
+function FilterButtons({ OnClickFunc, selectFilter, theme }) {
   const btnObject = {
     'button-author': 'исполнителю',
     'button-year': 'году выпуска',
@@ -117,6 +123,7 @@ function FilterButtons({ OnClickFunc, selectFilter }) {
 
   arrKeysBtnObject = arrKeysBtnObject.map((filter, index) => (
     <S.filterButton
+      theme={theme}
       key={index.toString()}
       onClick={() => OnClickFunc(filter)}
       $clickBtn={selectFilter === filter}

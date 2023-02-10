@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import { ContextTheme } from '../../components/Others/Context';
 import * as GS from '../../GlobalStyle';
 import MainNavigation from '../../components/Header/navigation';
 import Filters from '../../components/Filters/Filters';
@@ -18,6 +19,7 @@ const playlistArr = require('../../components/Playlist.json');
 
 function Main({ loginName }) {
   const { useState, useEffect } = React;
+  const { theme, setTheme } = useContext(ContextTheme);
   const [IsLoading, SetIsLoading] = useState(true);
   let idTimeOut;
 
@@ -33,13 +35,13 @@ function Main({ loginName }) {
     }
   });
   return (
-    <GS.Wrapper>
-      <GS.Container>
+    <GS.Wrapper theme={theme}>
+      <GS.Container theme={theme}>
         <GS.Main>
           <MainNavigation />
           <GS.MainCenterblock>
             <CenterBlock />
-            <TrackHeader header="Треки" />
+            <TrackHeader theme={theme} header="Треки" />
             <Filters />
             <PlaylistTitle />
             {IsLoading ? (

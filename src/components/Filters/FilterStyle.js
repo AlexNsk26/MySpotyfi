@@ -1,6 +1,20 @@
 /* eslint-disable import/prefer-default-export */
 import styled, { css } from 'styled-components';
 
+const ColorTheme = {
+  darkTheme: css`
+    color: #ffffff;
+  `,
+  lightTheme: css`
+    color: #000000;
+  `,
+};
+
+const ParamColorTheme = {
+  darkTheme: '#ffffff',
+  lightTheme: '#000000',
+};
+
 export const FilterTrack = styled.p`
   font-style: normal;
   font-weight: 400;
@@ -105,6 +119,7 @@ export const filterTitle = styled.div`
   font-size: 16px;
   line-height: 24px;
   margin-right: 15px;
+  ${({ theme }) => ColorTheme[theme]};
 `;
 
 export const filteredMenu = styled.div`
@@ -132,18 +147,33 @@ const btnTextClick = css`
   color: #ad61ff;
 `;
 
+const filterButtonHoverColorTheme = {
+  darkTheme: css`
+    color: #d9b6ff;
+  `,
+  lightTheme: css`
+    color: #580ea2;
+  `,
+};
+
+const filterButtonBorderColorTheme = {
+  darkTheme: '#d9b6ff',
+  lightTheme: '#580ea2',
+};
+
 export const filterButton = styled.div`
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  border: 1px solid #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
+  border: 1px solid ${({ theme }) => ParamColorTheme[theme]};
   border-radius: 60px;
   padding: 6px 20px;
   ${({ $clickBtn }) => ($clickBtn ? btnTextClick : css``)}
   &:hover {
-    border-color: #d9b6ff;
-    color: #d9b6ff;
+    border-color: ${({ theme }) => filterButtonBorderColorTheme[theme]};
+    ${({ theme }) => filterButtonHoverColorTheme[theme]};
     cursor: pointer;
   }
 
