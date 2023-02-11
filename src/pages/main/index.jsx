@@ -19,7 +19,7 @@ const playlistArr = require('../../components/Playlist.json');
 
 function Main({ loginName }) {
   const { useState, useEffect } = React;
-  const { theme, setTheme } = useContext(ContextTheme);
+  const { theme } = useContext(ContextTheme);
   const [IsLoading, SetIsLoading] = useState(true);
   let idTimeOut;
 
@@ -50,7 +50,11 @@ function Main({ loginName }) {
               <Playlist playlistArr={playlistArr} />
             )}
           </GS.MainCenterblock>
-          {IsLoading ? <SidebarSceleton /> : <Sidebar loginName={loginName} />}
+          {IsLoading ? (
+            <SidebarSceleton loginName={loginName} theme={theme} />
+          ) : (
+            <Sidebar loginName={loginName} />
+          )}
         </GS.Main>
         <Player IsLoading={IsLoading} />
       </GS.Container>

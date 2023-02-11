@@ -82,9 +82,14 @@ export const CenterBlockContent = styled.div`
   flex-direction: column;
 `;
 
-const Sceleton = css`
-  background: #313131;
-`;
+const SceletonColorTheme = {
+  darkTheme: css`
+    background: #313131;
+  `,
+  lightTheme: css`
+    background: #F6F4F4;
+  `,
+};
 
 export const SceletonMainTrack = styled.div`
   display: flex;
@@ -97,30 +102,30 @@ export const SceletonMainTrack = styled.div`
 export const SceletonTrackImage = styled.div`
   width: 51px;
   height: 51px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 
 export const SceletonTrackTime = styled.div`
   width: 71px;
   height: 19px;
   margin-left: 75px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 
 export const SceletonTrackTitle = styled.div`
   width: 241px;
   height: 19px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 export const SceletonTrackAuthor = styled.div`
   width: 271px;
   height: 19px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 export const SceletonTrackAlbum = styled.div`
   width: 305px;
   height: 19px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 export const SceletonTrackPlayerTitles = styled.div`
   display: flex;
@@ -132,7 +137,7 @@ export const SceletonTrackPlayerTitle = styled.div`
   width: 59px;
   height: 15px;
   margin-top: 5px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 const SceletonPlaylistImgCss = css`
   width: 250px;
@@ -140,7 +145,7 @@ const SceletonPlaylistImgCss = css`
 `;
 export const SceletonPlaylistImg = styled.div`
   ${SceletonPlaylistImgCss}
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 export const SceletonTrackPlayer = styled.div`
   display: flex;
@@ -174,14 +179,19 @@ export const SidebarPersonalName = styled.p`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
   margin-right: 16px;
 `;
+
+const SidebarAvatarParamColorTheme = {
+  darkTheme: '#313131',
+  lightTheme: '#F6F5F3',
+};
 
 export const SidebarAvatar = styled.div`
   width: 43px;
   height: 43px;
-  background-color: #313131;
+  background-color: ${({ theme }) => SidebarAvatarParamColorTheme[theme]};
   border-radius: 50%;
 `;
 
@@ -215,7 +225,7 @@ export const SidebarBlock = styled.div`
 
 export const SidebarItemSceleton = styled.div`
   ${SceletonPlaylistImgCss}
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
   &:not(:last-child) {
     margin-bottom: 30px;
   }

@@ -8,10 +8,10 @@ import Error from './pages/Errrors/index';
 import ProtectedRoute from './components/Login/ProtectedRout';
 import Sets from './pages/Sets';
 
-const LoginData = JSON.parse(sessionStorage.getItem('MySpotyfiLogin'));
-const loginName = LoginData ? LoginData.login : undefined;
-const IsLogIn = () => !!LoginData;
 export function AppRoutes() {
+  const LoginData = JSON.parse(sessionStorage.getItem('MySpotyfiLogin'));
+  const loginName = LoginData ? LoginData.login : undefined;
+  const IsLogIn = () => !!LoginData;
   return (
     <Routes>
       <Route path="/main" element={<Main loginName={loginName} />} />

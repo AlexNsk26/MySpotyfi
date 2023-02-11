@@ -72,7 +72,7 @@ function ButtonLogIn({ setSignUp }) {
       LoginDataStorage.password === password
     ) {
       sessionStorage.setItem('MySpotyfiLogin', stringLogParams);
-      return navigate('/main', { replace: true });
+      return navigate('/main');
     }
     setSignUp(1);
   }

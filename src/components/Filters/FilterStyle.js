@@ -24,7 +24,7 @@ export const FilterTrack = styled.p`
   display: block;
   width: 152px;
   font-feature-settings: 'pnum' on, 'lnum' on;
-  color: #ffffff;
+  color: ${({ theme }) => ParamColorTheme[theme]};
   flex: none;
   order: 4;
   flex-grow: 0;
@@ -67,12 +67,17 @@ const filterMenues = {
   `,
 };
 
+const filterMenuParamColorTheme = {
+  darkTheme: '#313131',
+  lightTheme: '#F6F5F3',
+};
+
 export const filterMenu = styled.div`
   width: 248px;
   height: 305px;
   position: relative;
   top: -30px;
-  background: #313131;
+  background: ${({ theme }) => filterMenuParamColorTheme[theme]};
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -80,7 +85,6 @@ export const filterMenu = styled.div`
   z-index: 100;
   ${({ $classPosition }) => filterMenues[$classPosition]}
 `;
-
 export const filterMenuYear = styled.div`
   display: flex;
   align-items: flex-start;
@@ -88,7 +92,7 @@ export const filterMenuYear = styled.div`
   gap: 14px;
   width: 403px;
   height: 92px;
-  background: #313131;
+  background: ${({ theme }) => filterMenuParamColorTheme[theme]};
   border-radius: 12px;
   position: relative;
   top: -30px;
@@ -139,7 +143,7 @@ export const labelRadio = styled.label`
   font-size: 20px;
   line-height: 24px;
   font-feature-settings: 'pnum' on, 'lnum' on;
-  color: #ffffff;
+  color: ${({ theme }) => ParamColorTheme[theme]};
 `;
 
 const btnTextClick = css`

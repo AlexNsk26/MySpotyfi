@@ -1,17 +1,26 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, {
+  useContext,
+  useRef,
+  useState,
+  useEffect,
+  forwardRef,
+} from 'react';
 import useSound from 'use-sound';
 import { render } from '@testing-library/react';
+import { ContextTheme } from '../Others/Context';
 import trackSrc from './Bobby_Marleni_-_Dropin.mp3';
 import iconSvg from '../mainIcons/sprite.svg';
 import { SceletonTrackPlayer } from '../Others/Sceleton';
+
 import * as S from './PlayerStyle';
 
-const { useRef, useState, useEffect, forwardRef } = React;
+// const { useRef, useState, useEffect, forwardRef } = React;
 function Player(props) {
   const [audio] = useState(new Audio(trackSrc));
   const [isPlaying, setPlayBtn] = useState(false);
+  const { theme } = useContext(ContextTheme);
 
   const ChangeVolume = (e) => {
     const { target } = e;
@@ -19,14 +28,9 @@ function Player(props) {
   };
 
   return (
-    <S.Bar>
+    <S.Bar theme={theme}>
       <S.BarContent>
-        <GetProgressBar
-          audio={audio}
-          isPlaying={isPlaying}
-          /* timerId={timerId}
-          setTimerId={setTimerId} */
-        />
+        <GetProgressBar theme={theme} audio={audio} isPlaying={isPlaying} />
         <S.BarPlayerBlock>
           <S.BarPlayer>
             <S.Playercontrols>
@@ -45,21 +49,29 @@ function Player(props) {
             </S.Playercontrols>
             <S.PlayerTrackPlay>
               {props.IsLoading ? (
-                <SceletonTrackPlayer />
+                <SceletonTrackPlayer theme={theme} />
               ) : (
-                <TrackPlay authorLink="Ты та..." albumLink="Баста" />
+                <TrackPlay
+                  theme={theme}
+                  authorLink="Ты та..."
+                  albumLink="Баста"
+                />
               )}
             </S.PlayerTrackPlay>
 
             <S.TrackPlayLikeDis>
               <S.TrackPlayLikeDisIcon>
-                <S.TrackPlayLikeDisSvg $like="like" alt="like">
+                <S.TrackPlayLikeDisSvg theme={theme} $like="like" alt="like">
                   <use xlinkHref={`${iconSvg}#icon-like`} />
                 </S.TrackPlayLikeDisSvg>
               </S.TrackPlayLikeDisIcon>
 
               <S.TrackPlayLikeDisIcon $dislike="dislike">
-                <S.TrackPlayLikeDisSvg $like="dislike" alt="dislike">
+                <S.TrackPlayLikeDisSvg
+                  theme={theme}
+                  $like="dislike"
+                  alt="dislike"
+                >
                   <use xlinkHref={`${iconSvg}#icon-dislike`} />
                 </S.TrackPlayLikeDisSvg>
               </S.TrackPlayLikeDisIcon>
@@ -70,12 +82,19 @@ function Player(props) {
             <S.VolumeContent>
               <S.VolumeImage>
                 <S.VolumeSvg alt="volume">
-                  <use xlinkHref={`${iconSvg}#icon-volume`} />
+                  <use
+                    xlinkHref={
+                      theme === 'darkTheme'
+                        ? `${iconSvg}#icon-volume`
+                        : `${iconSvg}#icon-volume-light`
+                    }
+                  />
                 </S.VolumeSvg>
               </S.VolumeImage>
 
               <S.VolumeProgress>
                 <S.VolumeProgressLine
+                  theme={theme}
                   onChange={ChangeVolume}
                   type="range"
                   name="range"
@@ -90,7 +109,7 @@ function Player(props) {
 }
 export default Player;
 
-function GetProgressBar({ audio, isPlaying }) {
+function GetProgressBar({ audio, isPlaying, theme }) {
   const [progress, setProgress] = useState(0);
   let timerId;
   const maxTime = audio.duration;
@@ -108,7 +127,7 @@ function GetProgressBar({ audio, isPlaying }) {
   });
 
   return (
-    <S.BarPlayerProgress>
+    <S.BarPlayerProgress theme={theme}>
       <S.BarPlayerProgressPlayed $duration={String(progress)} />
     </S.BarPlayerProgress>
   );
@@ -177,19 +196,25 @@ function PlayerControls({ list, audio, isPlaying, setPlayBtn }) {
 function TrackPlay(props) {
   return (
     <>
-      <S.TrackPlayImage>
+      <S.TrackPlayImage theme={props.theme}>
         <S.TrackPlaySvg alt="music">
-          <use xlinkHref={`${iconSvg}#icon-note`} />
+          <use
+            xlinkHref={
+              props.theme === 'darkTheme'
+                ? `${iconSvg}#icon-note`
+                : `${iconSvg}#icon-note-light`
+            }
+          />
         </S.TrackPlaySvg>
       </S.TrackPlayImage>
       <S.TrackGroup>
         <S.TrackPlayAuthor>
-          <S.TrackPlayAuthorLink href="http://">
+          <S.TrackPlayAuthorLink theme={props.theme} href="http://">
             {props.authorLink}
           </S.TrackPlayAuthorLink>
         </S.TrackPlayAuthor>
         <S.TrackPlayAlbum>
-          <S.TrackPlayAlbumLink href="http://">
+          <S.TrackPlayAlbumLink theme={props.theme} href="http://">
             {props.albumLink}
           </S.TrackPlayAlbumLink>
         </S.TrackPlayAlbum>

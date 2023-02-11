@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import * as GS from '../../GlobalStyle';
 import MainNavigation from '../../components/Header/navigation';
@@ -9,6 +9,7 @@ import { PlaylistTitle, Playlist } from '../../components/Playlist/PlaylistApp';
 import Player from '../../components/Player/Player';
 import Footer from '../../components/Others/Footer';
 import { SceletonTrackMain } from '../../components/Others/Sceleton';
+import { ContextTheme } from '../../components/Others/Context';
 
 const headersSets = {
   dayPlaylist: 'Плейлист дня',
@@ -32,6 +33,7 @@ const playlistSets = {
 
 function Sets({ loginName }) {
   const { useState, useEffect } = React;
+  const { theme } = useContext(ContextTheme);
   const [IsLoading, SetIsLoading] = useState(true);
   const { typeSet } = useParams();
   let idTimeOut;
@@ -48,7 +50,7 @@ function Sets({ loginName }) {
     }
   });
   return (
-    <GS.Wrapper>
+    <GS.Wrapper theme={theme}>
       <GS.Container>
         <GS.Main>
           <MainNavigation />

@@ -1,6 +1,9 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
+import { useContext } from 'react';
 import iconSvg from '../mainIcons/sprite.svg';
 import * as S from './PlaylistStyle';
+import { ContextTheme } from '../Others/Context';
 
 export function PlaylistTitle() {
   return (
@@ -48,12 +51,13 @@ function PlaylistItems({ playlistArr }) {
   return <PlaylistItem playlist={playlistArr} />;
 }
 function PlaylistItem(props) {
+  const { theme } = useContext(ContextTheme);
   let { playlist } = props;
   playlist = playlist.map((track, index) => (
     <S.PlaylistItem key={index.toString()}>
-      <S.PlaylistTrack>
-        <TrackTitle title={track.title} />
-        <TrackAuthor author={track.author} />
+      <S.PlaylistTrack theme={theme}>
+        <TrackTitle theme={theme} title={track.title} />
+        <TrackAuthor theme={theme} author={track.author} />
         <TrackAlbum album={track.album} />
         <TrackTime time={track.time} />
       </S.PlaylistTrack>
@@ -62,25 +66,33 @@ function PlaylistItem(props) {
 
   return playlist;
 }
-function TrackTitle(props) {
+function TrackTitle({ theme, title }) {
   return (
     <S.TrackTitle>
-      <S.TrackTitleImage>
-        <S.TrackTitleSvg alt="music">
-          <use xlinkHref={`${iconSvg}#icon-note`} />
+      <S.TrackTitleImage theme={theme}>
+        <S.TrackTitleSvg theme={theme} alt="music">
+          <use
+            xlinkHref={
+              theme === 'darkTheme'
+                ? `${iconSvg}#icon-note`
+                : `${iconSvg}#icon-note-light`
+            }
+          />
         </S.TrackTitleSvg>
       </S.TrackTitleImage>
 
-      <S.TrackTitleLink href="http://">
-        <S.TrackTitleLink>{props.title}</S.TrackTitleLink>
+      <S.TrackTitleLink theme={theme} href="http://">
+        {title}
       </S.TrackTitleLink>
     </S.TrackTitle>
   );
 }
-function TrackAuthor(props) {
+function TrackAuthor({ theme, author }) {
   return (
     <S.TrackAuthor>
-      <S.TrackAuthorLink href="http://">{props.author}</S.TrackAuthorLink>
+      <S.TrackAuthorLink theme={theme} href="http://">
+        {author}
+      </S.TrackAuthorLink>
     </S.TrackAuthor>
   );
 }

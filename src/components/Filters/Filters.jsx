@@ -18,17 +18,19 @@ function Filters() {
   return <ShowFilterMenu />;
 }
 export default Filters;
-function GetFilterList(list) {
+function GetFilterList(list, theme) {
   const filteredList = list.map((titleTrack, index) => (
-    <S.FilterTrack key={index.toString()}>{titleTrack}</S.FilterTrack>
+    <S.FilterTrack theme={theme} key={index.toString()}>
+      {titleTrack}
+    </S.FilterTrack>
   ));
   return <S.filterBlock>{filteredList}</S.filterBlock>;
 }
 
-function MenuFilterBig({ list, classPosition }) {
+function MenuFilterBig({ list, classPosition, theme }) {
   return (
-    <S.filterMenu $classPosition={classPosition}>
-      {GetFilterList(list)}
+    <S.filterMenu theme={theme} $classPosition={classPosition}>
+      {GetFilterList(list, theme)}
     </S.filterMenu>
   );
 }
@@ -63,9 +65,10 @@ function ShowFilterMenu() {
   };
   const showMenu =
     selectFilter === 'button-year' ? (
-      <MenuFilterYear classPosition={selectFilter} />
+      <MenuFilterYear theme={theme} classPosition={selectFilter} />
     ) : (
       <MenuFilterBig
+        theme={theme}
         list={getFilteredList(selectFilter)}
         classPosition={selectFilter}
       />
@@ -85,9 +88,9 @@ function ShowFilterMenu() {
     </>
   );
 }
-function MenuFilterYear({ classPosition }) {
+function MenuFilterYear({ classPosition, theme }) {
   return (
-    <S.filterMenuYear $classPosition={classPosition}>
+    <S.filterMenuYear theme={theme} $classPosition={classPosition}>
       <S.checkYear
         className="checkYear"
         type="radio"
@@ -96,7 +99,7 @@ function MenuFilterYear({ classPosition }) {
         checked
         value="new"
       />
-      <S.labelRadio htmlFor="1">Более новые</S.labelRadio>
+      <S.labelRadio theme={theme} htmlFor="1">Более новые</S.labelRadio>
 
       <S.checkYear
         className="checkYear"
@@ -105,7 +108,7 @@ function MenuFilterYear({ classPosition }) {
         id="2"
         value="old"
       />
-      <S.labelRadio htmlFor="2">Более старые</S.labelRadio>
+      <S.labelRadio theme={theme} htmlFor="2">Более старые</S.labelRadio>
     </S.filterMenuYear>
   );
 }

@@ -81,6 +81,7 @@ export const Main = styled.div`
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  height: 100%;
 `;
 
 export const MainCenterblock = styled.div`

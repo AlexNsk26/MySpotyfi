@@ -1,15 +1,18 @@
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { ContextTheme } from '../Others/Context';
 import playlist01 from './img/playlist01.png';
 import playlist02 from './img/playlist02.png';
 import playlist03 from './img/playlist03.png';
 import * as S from '../Others/OtherStyle';
 
 function Sidebar({ loginName, forSets = false }) {
+  const { theme } = useContext(ContextTheme);
   return (
     <S.MainSidebar>
       <S.SidebarPersonal>
-        <S.SidebarPersonalName>{loginName}</S.SidebarPersonalName>
-        <S.SidebarAvatar />
+        <S.SidebarPersonalName theme={theme}>{loginName}</S.SidebarPersonalName>
+        <S.SidebarAvatar theme={theme} />
       </S.SidebarPersonal>
       {!forSets && (
         <S.SidebarBlock>

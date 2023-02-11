@@ -1,4 +1,19 @@
+/* eslint-disable no-unused-vars */
 import styled, { css } from 'styled-components';
+
+const ColorTheme = {
+  darkTheme: css`
+    color: #ffffff;
+  `,
+  lightTheme: css`
+    color: #000000;
+  `,
+};
+
+const ParamColorTheme = {
+  darkTheme: '#ffffff',
+  lightTheme: '#000000',
+};
 
 export const CenterblockContent = styled.div`
   display: -webkit-box;
@@ -100,12 +115,15 @@ export const TrackTitle = styled.div`
   align-items: center;
   width: 247px;
 `;
-
+const TrackTitleImageParamColorTheme = {
+  darkTheme: '#313131',
+  lightTheme: '#F6F4F4',
+};
 export const TrackTitleImage = styled.div`
   width: 51px;
   height: 51px;
   padding: 16px;
-  background: #313131;
+  background: ${({ theme }) => TrackTitleImageParamColorTheme[theme]};
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -117,12 +135,16 @@ export const TrackTitleImage = styled.div`
   justify-content: center;
   margin-right: 17px;
 `;
+const TrackTitleSvgParamColorTheme = {
+  darkTheme: '#4e4e4e',
+  lightTheme: '#B1B1B1',
+};
 
 export const TrackTitleSvg = styled.svg`
   width: 18px;
   height: 17px;
   fill: transparent;
-  stroke: #4e4e4e;
+  stroke: ${({ theme }) => TrackTitleSvgParamColorTheme[theme]};
 `;
 
 export const TrackTitleLink = styled.a`
@@ -130,7 +152,7 @@ export const TrackTitleLink = styled.a`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
 `;
 
 export const TrackTitleSpan = styled.span`
@@ -156,7 +178,7 @@ export const TrackAuthorLink = styled.a`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
   text-align: left;
 `;
 
@@ -173,23 +195,23 @@ export const TrackAlbumLink = styled.a`
 `;
 
 export const TrackTime = styled.div`
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 `;
 
 export const TrackTimeSvg = styled.svg`
-    width: 14px;
-    height: 12px;
-    margin-right: 17px;
-    fill: transparent;
-    stroke: #696969;
+  width: 14px;
+  height: 12px;
+  margin-right: 17px;
+  fill: transparent;
+  stroke: #696969;
 `;
 
 export const TrackTimeText = styled.span`
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    text-align: right;
-    color: #696969;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: right;
+  color: #696969;
 `;

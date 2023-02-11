@@ -48,16 +48,17 @@ function SvgTheme({ theme }) {
   );
 }
 
-const LogOut = (e) => {
-  sessionStorage.removeItem('MySpotyfiLogin');
-  const navigate = useNavigate();
-  e.preventDefault();
-  navigate('/login', { replace: true });
-};
-
 function FormMenuItems({ items, setTheme, theme }) {
-  const content = [];
   let arrItems = items;
+  const content = [];
+  const navigate = useNavigate();
+
+  const LogOut = (e) => {
+    sessionStorage.removeItem('MySpotyfiLogin');
+    e.preventDefault();
+    navigate('/login', { replace: true });
+  };
+
   arrItems = items.map((item, index) => (
     <S.MenuItem key={String(index)}>
       <S.MenuLink theme={theme} onClick={LogOut} to={item.path}>
