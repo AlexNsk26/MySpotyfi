@@ -4,6 +4,7 @@ import { useContext } from 'react';
 import iconSvg from '../mainIcons/sprite.svg';
 import * as S from './PlaylistStyle';
 import { ContextTheme } from '../Others/Context';
+import { useGetAllTrackQuery } from '../../pages/services/queryApi';
 
 export function PlaylistTitle() {
   return (
@@ -21,10 +22,14 @@ export function PlaylistTitle() {
     </S.CenterblockContent>
   );
 }
-export function Playlist({ playlistArr }) {
+export function Playlist() {
+  const { data, error, isLoading } = useGetAllTrackQuery();
+  const getPlaylistArr = (dataAllTracks) => {
+    console.dir(dataAllTracks);
+  };
   return (
     <S.ContentPlaylist>
-      <PlaylistItems playlistArr={playlistArr} />
+      <PlaylistItems playlistArr={getPlaylistArr(data)} />
     </S.ContentPlaylist>
   );
 }

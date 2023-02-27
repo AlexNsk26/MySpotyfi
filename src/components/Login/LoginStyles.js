@@ -35,7 +35,7 @@ export const LoginInputsBlock = styled.div`
 `;
 
 export const InputField = styled.input`
-  margin-top: 30px;
+  margin-top: 20px;
   height: 40px;
   width: 278px;
   border: none;
@@ -51,6 +51,19 @@ export const InputField = styled.input`
   }
 `;
 
+export const ErrorArea = styled.div`
+  margin-top: 10px;
+  //height: 40px;
+  width: 278px;
+`;
+
+export const ErrorSpan = styled.span`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  color: #f54021;
+`;
+
 export const ButtonLogIn = styled.button`
   width: 278px;
   height: 52px;
@@ -63,7 +76,7 @@ export const ButtonLogIn = styled.button`
   letter-spacing: -0.003em;
   font-feature-settings: 'pnum' on, 'lnum' on;
   color: #ffffff;
-  margin-top: 60px;
+  margin-top: 40px;
   &:hover {
     background: #3f007d;
   }
@@ -84,13 +97,14 @@ export const ButtonGetSignUp = styled.button`
   color: #000000;
   border: 1px solid #d0cece;
   border-radius: 6px;
+  margin-top: 20px;
   ${({ $signUp }) => ($signUp
     ? css`
-          margin-top: 60px;
+          margin-top: 10px;
         `
     : css`
           margin-top: 20px;
-        `)};
+        `)}; 
   &:hover {
     background: #f4f5f6;
   }

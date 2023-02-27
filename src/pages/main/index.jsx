@@ -47,7 +47,7 @@ function Main({ loginName }) {
             {IsLoading ? (
               <SceletonTrackMain />
             ) : (
-              <Playlist playlistArr={playlistArr} />
+              <Playlist />
             )}
           </GS.MainCenterblock>
           {IsLoading ? (
