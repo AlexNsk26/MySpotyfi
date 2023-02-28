@@ -24,7 +24,7 @@ export const spotyfyQueryApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllTrack: builder.query({
-      query: () => 'catalog/track/all',
+      query: () => 'catalog/track/all/',
     }),
   }),
 });
