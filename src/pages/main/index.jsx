@@ -14,15 +14,19 @@ import {
   SceletonTrackMain,
   SidebarSceleton,
 } from '../../components/Others/Sceleton';
+import { useGetAllTrackQuery } from '../services/queryApi';
 
 const playlistArr = require('../../components/Playlist.json');
 
 function Main({ loginName }) {
   const { useState, useEffect } = React;
+  const { data, error, isLoading } = useGetAllTrackQuery();
   const { theme } = useContext(ContextTheme);
-  const [IsLoading, SetIsLoading] = useState(true);
-  let idTimeOut;
-
+  console.log(data);
+  console.log(error);
+  console.log(isLoading);
+  // const [IsLoading, SetIsLoading] = useState(true);
+  /* let idTimeOut;
   if (IsLoading) {
     idTimeOut = setTimeout(() => {
       SetIsLoading(!IsLoading);
@@ -33,7 +37,7 @@ function Main({ loginName }) {
     if (!IsLoading) {
       clearTimeout(idTimeOut);
     }
-  });
+  }); */
   return (
     <GS.Wrapper theme={theme}>
       <GS.Container theme={theme}>
@@ -44,19 +48,19 @@ function Main({ loginName }) {
             <TrackHeader theme={theme} header="Треки" />
             <Filters />
             <PlaylistTitle />
-            {IsLoading ? (
+            {isLoading || isLoading === undefined ? (
               <SceletonTrackMain />
             ) : (
-              <Playlist />
+              <Playlist allTracksData={data} />
             )}
           </GS.MainCenterblock>
-          {IsLoading ? (
+          {isLoading ? (
             <SidebarSceleton loginName={loginName} theme={theme} />
           ) : (
             <Sidebar loginName={loginName} />
           )}
         </GS.Main>
-        <Player IsLoading={IsLoading} />
+        <Player IsLoading={isLoading} />
       </GS.Container>
       <Footer />
     </GS.Wrapper>

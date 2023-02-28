@@ -4,7 +4,6 @@ import { useContext } from 'react';
 import iconSvg from '../mainIcons/sprite.svg';
 import * as S from './PlaylistStyle';
 import { ContextTheme } from '../Others/Context';
-import { useGetAllTrackQuery } from '../../pages/services/queryApi';
 
 export function PlaylistTitle() {
   return (
@@ -22,14 +21,11 @@ export function PlaylistTitle() {
     </S.CenterblockContent>
   );
 }
-export function Playlist() {
-  const { data, error, isLoading } = useGetAllTrackQuery();
-  const getPlaylistArr = (dataAllTracks) => {
-    console.dir(dataAllTracks);
-  };
+export function Playlist({ allTracksData }) {
+  const getPlaylistArr = (dataAllTracks) => dataAllTracks;
   return (
     <S.ContentPlaylist>
-      <PlaylistItems playlistArr={getPlaylistArr(data)} />
+      <PlaylistItems playlistArr={getPlaylistArr(allTracksData)} />
     </S.ContentPlaylist>
   );
 }
@@ -55,16 +51,21 @@ function PlaylistTitles(props) {
 function PlaylistItems({ playlistArr }) {
   return <PlaylistItem playlist={playlistArr} />;
 }
+function ConvertTime(timeSeconds) {
+  const min = Math.floor(timeSeconds / 60);
+  const sec = timeSeconds % 60;
+  return `${min}:${sec}`;
+}
 function PlaylistItem(props) {
   const { theme } = useContext(ContextTheme);
   let { playlist } = props;
   playlist = playlist.map((track, index) => (
-    <S.PlaylistItem key={index.toString()}>
+    <S.PlaylistItem key={track.id}>
       <S.PlaylistTrack theme={theme}>
-        <TrackTitle theme={theme} title={track.title} />
+        <TrackTitle theme={theme} title={track.name} />
         <TrackAuthor theme={theme} author={track.author} />
         <TrackAlbum album={track.album} />
-        <TrackTime time={track.time} />
+        <TrackTime time={ConvertTime(track.duration_in_seconds)} />
       </S.PlaylistTrack>
     </S.PlaylistItem>
   ));

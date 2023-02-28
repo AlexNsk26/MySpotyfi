@@ -17,7 +17,7 @@ export const spotyfyQueryApi = createApi({
       const { accessToken } = getState().spotyfy;
       // const accessToken = useSelector(AccessTokenSelector);
       if (accessToken) {
-        headers.set('authorizathion', `Bearer${accessToken}`);
+        headers.set('authorizathion', `Bearer ${accessToken}`);
       }
       return headers;
     },
