@@ -118,6 +118,11 @@ function LoginBlock() {
         dispatch(fetchRefreshToken());
       }, 40000);
       setIdRefreshTokenInterval(id);
+      localStorage.setItem('MySpotyfyLoginData', {
+        id: loginData.id,
+        username: loginData.username,
+        refreshToken: RefreshToken,
+      });
       navigate('/main');
     }
   }, [loginData, AccessToken]);

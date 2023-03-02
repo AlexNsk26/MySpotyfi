@@ -15,9 +15,8 @@ export const spotyfyQueryApi = createApi({
     baseUrl: BASE_URL,
     prepareHeaders: (headers, { getState }) => {
       const { accessToken } = getState().spotyfy;
-      // const accessToken = useSelector(AccessTokenSelector);
       if (accessToken) {
-        headers.set('authorizathion', `Bearer ${accessToken}`);
+        headers.set('authorization', `Bearer ${accessToken}`);
       }
       return headers;
     },
@@ -26,7 +25,10 @@ export const spotyfyQueryApi = createApi({
     getAllTrack: builder.query({
       query: () => 'catalog/track/all/',
     }),
+    getTrackById: builder.query({
+      query: (idTrack) => `catalog/track/${idTrack}/`,
+    }),
   }),
 });
 
-export const { useGetAllTrackQuery } = spotyfyQueryApi;
+export const { useGetAllTrackQuery, useGetTrackByIdQuery } = spotyfyQueryApi;

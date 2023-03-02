@@ -13,12 +13,13 @@ import { ContextTheme } from '../Others/Context';
 import trackSrc from './Bobby_Marleni_-_Dropin.mp3';
 import iconSvg from '../mainIcons/sprite.svg';
 import { SceletonTrackPlayer } from '../Others/Sceleton';
+import GetMyLoginData, { FindMyIdFav } from '../LoginStotigeData';
 
 import * as S from './PlayerStyle';
 
 // const { useRef, useState, useEffect, forwardRef } = React;
-function Player(props) {
-  const [audio] = useState(new Audio(trackSrc));
+function Player(IsLoading, trackData) {
+  const [audio] = useState(new Audio(trackData.track_file));
   const [isPlaying, setPlayBtn] = useState(false);
   const { theme } = useContext(ContextTheme);
 
@@ -48,20 +49,20 @@ function Player(props) {
               />
             </S.Playercontrols>
             <S.PlayerTrackPlay>
-              {props.IsLoading ? (
+              {IsLoading ? (
                 <SceletonTrackPlayer theme={theme} />
               ) : (
                 <TrackPlay
                   theme={theme}
-                  authorLink="Ты та..."
-                  albumLink="Баста"
+                  authorLink={trackData.name}
+                  albumLink={trackData.author}
                 />
               )}
             </S.PlayerTrackPlay>
 
             <S.TrackPlayLikeDis>
               <S.TrackPlayLikeDisIcon>
-                <S.TrackPlayLikeDisSvg theme={theme} $like="like" alt="like">
+                <S.TrackPlayLikeDisSvg theme={theme} $like="like" isLike={FindMyIdFav(trackData.stared_user)} alt="like">
                   <use xlinkHref={`${iconSvg}#icon-like`} />
                 </S.TrackPlayLikeDisSvg>
               </S.TrackPlayLikeDisIcon>

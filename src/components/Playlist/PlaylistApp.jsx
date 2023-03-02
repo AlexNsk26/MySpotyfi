@@ -4,6 +4,8 @@ import { useContext } from 'react';
 import iconSvg from '../mainIcons/sprite.svg';
 import * as S from './PlaylistStyle';
 import { ContextTheme } from '../Others/Context';
+import { FindMyIdFav } from '../LoginStotigeData';
+// import { useGetTrackByIdQuery } from '../../pages/services/queryApi';
 
 export function PlaylistTitle() {
   return (
@@ -21,11 +23,21 @@ export function PlaylistTitle() {
     </S.CenterblockContent>
   );
 }
-export function Playlist({ allTracksData }) {
-  const getPlaylistArr = (dataAllTracks) => dataAllTracks;
+
+export function Playlist({ setIdTrack, allTracksData }) {
+  const getPlaylistArr = (dataAllTracks) => {
+    const dataAllTracksConvert = dataAllTracks.map((track) => ({
+      ...track,
+      isLike: FindMyIdFav(track.stared_user),
+    }));
+    return dataAllTracksConvert;
+  };
   return (
     <S.ContentPlaylist>
-      <PlaylistItems playlistArr={getPlaylistArr(allTracksData)} />
+      <PlaylistItems
+        setIdTrack={setIdTrack}
+        playlistArr={getPlaylistArr(allTracksData)}
+      />
     </S.ContentPlaylist>
   );
 }
@@ -48,31 +60,44 @@ function PlaylistTitles(props) {
 
   return arrTitleObject;
 }
-function PlaylistItems({ playlistArr }) {
-  return <PlaylistItem playlist={playlistArr} />;
+function PlaylistItems({ setIdTrack, playlistArr }) {
+  return <PlaylistItem setIdTrack={setIdTrack} playlist={playlistArr} />;
 }
 function ConvertTime(timeSeconds) {
   const min = Math.floor(timeSeconds / 60);
   const sec = timeSeconds % 60;
-  return `${min}:${sec}`;
+  // const corectSec = sec<10
+  return `${min}:${sec < 10 ? `0${sec}` : sec}`;
+}
+function OnClickTrack(e, setIdTrack) {
+  const { currentTarget } = e;
+  const idTrack = currentTarget.dataset.idtrack;
+  setIdTrack(idTrack);
 }
 function PlaylistItem(props) {
   const { theme } = useContext(ContextTheme);
   let { playlist } = props;
   playlist = playlist.map((track, index) => (
     <S.PlaylistItem key={track.id}>
-      <S.PlaylistTrack theme={theme}>
+      <S.PlaylistTrack
+        data-idTrack={track.id}
+        onClick={(e) => OnClickTrack(e, props.setIdTrack)}
+        theme={theme}
+      >
         <TrackTitle theme={theme} title={track.name} />
-        <TrackAuthor theme={theme} author={track.author} />
-        <TrackAlbum album={track.album} />
-        <TrackTime time={ConvertTime(track.duration_in_seconds)} />
+        <TrackAuthor idTrack={track.id} theme={theme} author={track.author} />
+        <TrackAlbum idTrack={track.id} album={track.album} />
+        <TrackTime
+          isLike={track.isLike}
+          time={ConvertTime(track.duration_in_seconds)}
+        />
       </S.PlaylistTrack>
     </S.PlaylistItem>
   ));
 
   return playlist;
 }
-function TrackTitle({ theme, title }) {
+function TrackTitle({ onClick, theme, title }) {
   return (
     <S.TrackTitle>
       <S.TrackTitleImage theme={theme}>
@@ -87,7 +112,7 @@ function TrackTitle({ theme, title }) {
         </S.TrackTitleSvg>
       </S.TrackTitleImage>
 
-      <S.TrackTitleLink theme={theme} href="http://">
+      <S.TrackTitleLink theme={theme} href="#">
         {title}
       </S.TrackTitleLink>
     </S.TrackTitle>
@@ -96,7 +121,7 @@ function TrackTitle({ theme, title }) {
 function TrackAuthor({ theme, author }) {
   return (
     <S.TrackAuthor>
-      <S.TrackAuthorLink theme={theme} href="http://">
+      <S.TrackAuthorLink theme={theme} href="#">
         {author}
       </S.TrackAuthorLink>
     </S.TrackAuthor>
@@ -105,14 +130,14 @@ function TrackAuthor({ theme, author }) {
 function TrackAlbum(props) {
   return (
     <S.TrackAlbum>
-      <S.TrackAlbumLink href="http://">{props.album}</S.TrackAlbumLink>
+      <S.TrackAlbumLink href="#">{props.album}</S.TrackAlbumLink>
     </S.TrackAlbum>
   );
 }
 function TrackTime(props) {
   return (
     <S.TrackTime>
-      <S.TrackTimeSvg alt="time">
+      <S.TrackTimeSvg isLike={props.isLike} alt="time">
         <use xlinkHref={`${iconSvg}#icon-like`} />
       </S.TrackTimeSvg>
       <S.TrackTimeText>{props.time}</S.TrackTimeText>

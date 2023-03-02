@@ -14,30 +14,31 @@ import {
   SceletonTrackMain,
   SidebarSceleton,
 } from '../../components/Others/Sceleton';
-import { useGetAllTrackQuery } from '../services/queryApi';
+import {
+  useGetAllTrackQuery,
+  useGetTrackByIdQuery,
+} from '../services/queryApi';
 
 const playlistArr = require('../../components/Playlist.json');
 
+const { useState, useEffect } = React;
+
 function Main({ loginName }) {
-  const { useState, useEffect } = React;
+  const [idTrackCurrent, setIdTrackCurrent] = useState();
   const { data, error, isLoading } = useGetAllTrackQuery();
   const { theme } = useContext(ContextTheme);
-  console.log(data);
-  console.log(error);
-  console.log(isLoading);
-  // const [IsLoading, SetIsLoading] = useState(true);
-  /* let idTimeOut;
-  if (IsLoading) {
-    idTimeOut = setTimeout(() => {
-      SetIsLoading(!IsLoading);
-    }, 5000);
-  }
+  let trackQueryData;
 
-  useEffect(() => () => {
-    if (!IsLoading) {
-      clearTimeout(idTimeOut);
+  if (idTrackCurrent) {
+    trackQueryData = useGetTrackByIdQuery(idTrackCurrent);
+  }
+  /*
+  useEffect(() => {
+    if (idTrackCurrent) {
+      trackQueryData = useGetTrackByIdQuery(idTrackCurrent);
     }
-  }); */
+  }, [idTrackCurrent]); */
+
   return (
     <GS.Wrapper theme={theme}>
       <GS.Container theme={theme}>
@@ -51,7 +52,7 @@ function Main({ loginName }) {
             {isLoading || isLoading === undefined ? (
               <SceletonTrackMain />
             ) : (
-              <Playlist allTracksData={data} />
+              <Playlist setIdTrack={setIdTrackCurrent} allTracksData={data} />
             )}
           </GS.MainCenterblock>
           {isLoading ? (
@@ -60,7 +61,12 @@ function Main({ loginName }) {
             <Sidebar loginName={loginName} />
           )}
         </GS.Main>
-        <Player IsLoading={isLoading} />
+        {idTrackCurrent && (
+          <Player
+            trackData={trackQueryData?.data}
+            IsLoading={isLoading || trackQueryData?.isLoading}
+          />
+        )}
       </GS.Container>
       <Footer />
     </GS.Wrapper>

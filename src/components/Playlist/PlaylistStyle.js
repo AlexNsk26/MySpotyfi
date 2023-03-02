@@ -203,7 +203,7 @@ export const TrackTimeSvg = styled.svg`
   width: 14px;
   height: 12px;
   margin-right: 17px;
-  fill: transparent;
+  fill: ${({ isLike }) => (isLike ? '#696969' : 'transparent')};
   stroke: #696969;
 `;
 

@@ -143,7 +143,7 @@ const TrackPlayLikeDisIconActiveParamColorTheme = {
 };
 
 export const TrackPlayLikeDisSvg = styled.svg`
-  fill: transparent;
+  fill: ${({ isLike }) => (isLike ? '#696969' : 'transparent')};;
   stroke: #696969;
   cursor: pointer;
   ${({ $like }) => LikeDisSvg[$like]}
