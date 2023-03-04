@@ -1,5 +1,5 @@
 export default function GetMyLoginData() {
-  return localStorage.getItem('MySpotyfyLoginData');
+  return JSON.parse(localStorage.getItem('MySpotyfyLoginData'));
 }
 
 export function FindMyIdFav(arrUser) {

@@ -7,6 +7,8 @@ const initialState = {
   accessToken: null,
   refreshToken: null,
   errorMessage: {},
+  playingTrack: '',
+  userLogIn: false,
 };
 /* const initialAction = {
   type: '',
@@ -108,6 +110,18 @@ export default function SpotyfyReducer(state = initialState, action) {
         loading: false,
         error: action.payload.error,
         errorMessage: action.payload.errorMessage,
+      };
+
+    case MyType.ADD_TRACK_PLAYING:
+      return {
+        ...state,
+        playingTrack: action.payload,
+      };
+
+    case MyType.USER_LOGIN:
+      return {
+        ...state,
+        userLogIn: action.payload,
       };
     default:
       return state;

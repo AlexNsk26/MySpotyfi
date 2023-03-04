@@ -4,6 +4,9 @@ const spotyfySelector = (store) => store.spotyfy;
 export const loginDataSelector = (store) =>
   spotyfySelector(store)?.loginData || {};
 
+export const userLogInSelector = (store) =>
+  spotyfySelector(store)?.userLogIn || false;
+
 export const loginDataLoadingSelector = (store) =>
   spotyfySelector(store)?.loading;
 
@@ -17,3 +20,6 @@ export const AccessTokenSelector = (store) =>
 
 export const RefreshTokenSelector = (store) =>
   spotyfySelector(store)?.refreshToken;
+
+export const GetPlayingTrackSelector = (store) =>
+  spotyfySelector(store)?.playingTrack;

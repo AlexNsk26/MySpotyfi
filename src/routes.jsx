@@ -14,29 +14,34 @@ import {
   loginDataErrorSelector,
   loginDataErrorMSGSelector,
   AccessTokenSelector,
-  RefreshTokenSelector,
+  userLogInSelector,
 } from './store/selectors/selectors';
+import GetMyLoginData from './components/LoginStotigeData';
 
 export function AppRoutes() {
-  const loginData = useSelector(loginDataSelector);
+  const loginDataStor = useSelector(loginDataSelector);
   const AccessToken = useSelector(AccessTokenSelector);
-  // const LoginData = JSON.parse(sessionStorage.getItem('MySpotyfiLogin'));
-  // const loginName = LoginData ? LoginData.login : undefined;
-  const IsLogIn = () => !!AccessToken;
+  const userIsLogIn = useSelector(userLogInSelector);
+  const loginData =
+    loginDataStor && loginDataStor.username ? loginDataStor : GetMyLoginData();
+  const loginDataUsername = loginData ? loginData.username : '';
   return (
     <Routes>
-      <Route path="/main" element={<Main loginName={loginData.username} />} />
+      <Route path="/main" element={<Main loginName={loginDataUsername} />} />
       <Route
         path="/"
         element={
           // eslint-disable-next-line react/jsx-wrap-multilines
-          <ProtectedRoute isAllowed={IsLogIn()}>
+          <ProtectedRoute isAllowed={userIsLogIn}>
             <Login />
           </ProtectedRoute>
         }
       />
       <Route path="/login" element={<Login />} />
-      <Route path="/sets/:typeSet" element={<Sets loginName={loginData.username} />} />
+      <Route
+        path="/sets/:typeSet"
+        element={<Sets loginName={loginDataUsername} />}
+      />
       <Route path="*" element={<Error />} />
     </Routes>
   );

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-unused-vars */
 import React, {
@@ -7,6 +9,7 @@ import React, {
   useEffect,
   forwardRef,
 } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import useSound from 'use-sound';
 import { render } from '@testing-library/react';
 import { ContextTheme } from '../Others/Context';
@@ -14,20 +17,38 @@ import trackSrc from './Bobby_Marleni_-_Dropin.mp3';
 import iconSvg from '../mainIcons/sprite.svg';
 import { SceletonTrackPlayer } from '../Others/Sceleton';
 import GetMyLoginData, { FindMyIdFav } from '../LoginStotigeData';
+import { GetPlayingTrackSelector } from '../../store/selectors/selectors';
+import { useSetFavTrackByIdMutation } from '../../pages/services/queryApi';
 
 import * as S from './PlayerStyle';
 
 // const { useRef, useState, useEffect, forwardRef } = React;
-function Player(IsLoading, trackData) {
-  const [audio] = useState(new Audio(trackData.track_file));
+function Player({ IsLoading, trackData }) {
+  // const [favData, setFavData] = useState({ skip: true });
+  const [SetFavTrackById, { isLoading }] = useSetFavTrackByIdMutation();
+  const PlayingTrackSrc = useSelector(GetPlayingTrackSelector);
+  const [audio, setAudio] = useState(new Audio(''));
   const [isPlaying, setPlayBtn] = useState(false);
   const { theme } = useContext(ContextTheme);
+
+  useEffect(() => {
+    setAudio(new Audio(PlayingTrackSrc));
+  }, [PlayingTrackSrc]);
 
   const ChangeVolume = (e) => {
     const { target } = e;
     audio.volume = target.valueAsNumber / 100;
   };
 
+  const LikeDisHandelClick = (btnValue) => {
+    /*     setFavData((prev) => ({
+      ...prev,
+      btnValue,
+      idTrack: trackData.id,
+      skip: false,
+    })); */
+    SetFavTrackById({ btnValue, idTrack: trackData.id });
+  };
   return (
     <S.Bar theme={theme}>
       <S.BarContent>
@@ -54,20 +75,34 @@ function Player(IsLoading, trackData) {
               ) : (
                 <TrackPlay
                   theme={theme}
-                  authorLink={trackData.name}
-                  albumLink={trackData.author}
+                  authorLink={trackData?.name}
+                  albumLink={trackData?.author}
                 />
               )}
             </S.PlayerTrackPlay>
 
             <S.TrackPlayLikeDis>
-              <S.TrackPlayLikeDisIcon>
-                <S.TrackPlayLikeDisSvg theme={theme} $like="like" isLike={FindMyIdFav(trackData.stared_user)} alt="like">
+              <S.TrackPlayLikeDisIcon
+                onClick={() => LikeDisHandelClick('like')}
+              >
+                <S.TrackPlayLikeDisSvg
+                  theme={theme}
+                  $like="like"
+                  isLike={
+                    trackData && trackData.stared_user
+                      ? FindMyIdFav(trackData.stared_user)
+                      : false
+                  }
+                  alt="like"
+                >
                   <use xlinkHref={`${iconSvg}#icon-like`} />
                 </S.TrackPlayLikeDisSvg>
               </S.TrackPlayLikeDisIcon>
 
-              <S.TrackPlayLikeDisIcon $dislike="dislike">
+              <S.TrackPlayLikeDisIcon
+                onClick={() => LikeDisHandelClick('dislike')}
+                $dislike="dislike"
+              >
                 <S.TrackPlayLikeDisSvg
                   theme={theme}
                   $like="dislike"

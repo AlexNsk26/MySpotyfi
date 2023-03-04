@@ -124,7 +124,7 @@ export const TrackPlayLikeDis = styled.div`
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-left: 26%;
+  margin-left: 16px;
 `;
 
 const LikeDisSvg = {

@@ -75,3 +75,13 @@ export const FetchRefreshTokenFailure = (error) => ({
     errorMessage: error.response?.data,
   },
 });
+
+export const FetchPlayingTrack = (audio) => ({
+  type: MyType.ADD_TRACK_PLAYING,
+  payload: audio,
+});
+
+export const FetchUserLogIn = (logIn) => ({
+  type: MyType.USER_LOGIN,
+  payload: logIn,
+});

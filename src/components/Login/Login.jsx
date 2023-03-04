@@ -22,6 +22,7 @@ import {
   fetchGetToken,
   fetchRefreshToken,
 } from '../../store/actions/thunks/thunks';
+import { FetchUserLogIn } from '../../store/actions/creators/creators';
 
 const InputFields = [
   {
@@ -118,11 +119,15 @@ function LoginBlock() {
         dispatch(fetchRefreshToken());
       }, 40000);
       setIdRefreshTokenInterval(id);
-      localStorage.setItem('MySpotyfyLoginData', {
-        id: loginData.id,
-        username: loginData.username,
-        refreshToken: RefreshToken,
-      });
+      localStorage.setItem(
+        'MySpotyfyLoginData',
+        JSON.stringify({
+          id: loginData.id,
+          username: loginData.username,
+          refreshToken: RefreshToken,
+        })
+      );
+      dispatch(FetchUserLogIn(true));
       navigate('/main');
     }
   }, [loginData, AccessToken]);
@@ -223,19 +228,6 @@ const LoginMenu = ({ list, count, loginStates, isLoading }) => {
 function ButtonLogIn({ dispatch, loginStates, isLoading }) {
   // eslint-disable-next-line consistent-return
   function handelClickBtnLogin() {
-    /*  const stringLogParams = localStorage.getItem('MySpotyfiLogin');
-    const LoginDataStorage = JSON.parse(stringLogParams);
-    const login = document.getElementsByName('login')[0].value;
-    const password = document.getElementsByName('Password')[0].value;
-    // e.target.value
-    if (
-      LoginDataStorage &&
-      LoginDataStorage.login === login &&
-      LoginDataStorage.password === password
-    ) {
-      sessionStorage.setItem('MySpotyfiLogin', stringLogParams);
-
-    } */
     const loginDataObj = {
       email: loginStates.loginMail,
       password: loginStates.password,

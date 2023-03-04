@@ -72,7 +72,7 @@ function ConvertTime(timeSeconds) {
 function OnClickTrack(e, setIdTrack) {
   const { currentTarget } = e;
   const idTrack = currentTarget.dataset.idtrack;
-  setIdTrack(idTrack);
+  setIdTrack({ id: idTrack, skip: false });
 }
 function PlaylistItem(props) {
   const { theme } = useContext(ContextTheme);
@@ -80,7 +80,7 @@ function PlaylistItem(props) {
   playlist = playlist.map((track, index) => (
     <S.PlaylistItem key={track.id}>
       <S.PlaylistTrack
-        data-idTrack={track.id}
+        data-idtrack={track.id}
         onClick={(e) => OnClickTrack(e, props.setIdTrack)}
         theme={theme}
       >

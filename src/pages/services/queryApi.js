@@ -7,7 +7,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // import { AccessTokenSelector } from '../../store/selectors/selectors';
 import BASE_URL from '../../Base_URL';
 
-// const AccessToken = useSelector(AccessTokenSelector);
+const DATA_TAG = { type: 'allTracks', id: 'LIST' };
 
 export const spotyfyQueryApi = createApi({
   reducerPath: 'spotyfyApi',
@@ -24,11 +24,28 @@ export const spotyfyQueryApi = createApi({
   endpoints: (builder) => ({
     getAllTrack: builder.query({
       query: () => 'catalog/track/all/',
+      providesTags: (result = []) => [
+        ...result.map(({ id }) => ({ type: DATA_TAG.type, id })),
+      ],
     }),
+
     getTrackById: builder.query({
-      query: (idTrack) => `catalog/track/${idTrack}/`,
+      query: ({ id }) => `catalog/track/${id}/`,
+      // invalidatesTags: [DATA_TAG],
+    }),
+
+    setFavTrackById: builder.mutation({
+      query: ({ btnValue, idTrack }) => ({
+        url: `catalog/track/${idTrack}/favorite/`,
+        method: `${btnValue === 'like' ? 'POST' : 'DELETE'}`,
+      }),
+      invalidatesTags: (post) => [{ type: DATA_TAG.type, id: post?.id }],
     }),
   }),
 });
 
-export const { useGetAllTrackQuery, useGetTrackByIdQuery } = spotyfyQueryApi;
+export const {
+  useGetAllTrackQuery,
+  useGetTrackByIdQuery,
+  useSetFavTrackByIdMutation,
+} = spotyfyQueryApi;

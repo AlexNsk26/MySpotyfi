@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { ContextTheme } from '../../components/Others/Context';
 import * as GS from '../../GlobalStyle';
@@ -18,26 +19,28 @@ import {
   useGetAllTrackQuery,
   useGetTrackByIdQuery,
 } from '../services/queryApi';
+import { FetchPlayingTrack } from '../../store/actions/creators/creators';
 
 const playlistArr = require('../../components/Playlist.json');
 
-const { useState, useEffect } = React;
-
 function Main({ loginName }) {
-  const [idTrackCurrent, setIdTrackCurrent] = useState();
+  const [idTrackCurrent, setIdTrackCurrent] = useState({ id: '', skip: true });
   const { data, error, isLoading } = useGetAllTrackQuery();
   const { theme } = useContext(ContextTheme);
-  let trackQueryData;
+  const trackQueryData = useGetTrackByIdQuery(idTrackCurrent, {
+    skip: idTrackCurrent.skip,
+  });
 
-  if (idTrackCurrent) {
-    trackQueryData = useGetTrackByIdQuery(idTrackCurrent);
-  }
-  /*
+  const dispatch = useDispatch();
+
+  const audioSrc =
+    trackQueryData.data && trackQueryData.data.track_file
+      ? trackQueryData.data.track_file
+      : '';
+
   useEffect(() => {
-    if (idTrackCurrent) {
-      trackQueryData = useGetTrackByIdQuery(idTrackCurrent);
-    }
-  }, [idTrackCurrent]); */
+    dispatch(FetchPlayingTrack(audioSrc));
+  }, [idTrackCurrent.id]);
 
   return (
     <GS.Wrapper theme={theme}>
@@ -61,7 +64,7 @@ function Main({ loginName }) {
             <Sidebar loginName={loginName} />
           )}
         </GS.Main>
-        {idTrackCurrent && (
+        {idTrackCurrent?.id !== '' && (
           <Player
             trackData={trackQueryData?.data}
             IsLoading={isLoading || trackQueryData?.isLoading}
