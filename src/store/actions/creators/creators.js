@@ -85,3 +85,13 @@ export const FetchUserLogIn = (logIn) => ({
   type: MyType.USER_LOGIN,
   payload: logIn,
 });
+
+export const FetchTrackFilter = (filterData) => ({
+  type: MyType.ADD_TRACK_FILTER,
+  payload: { ...filterData },
+});
+
+export const FetchTrackFilterYear = (filterData) => ({
+  type: MyType.ADD_TRACK_FILTER_YEAR,
+  payload: { ...filterData },
+});

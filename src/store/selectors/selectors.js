@@ -1,5 +1,14 @@
 /* eslint-disable implicit-arrow-linebreak */
+import { createSelector } from '@reduxjs/toolkit';
+import { spotyfyQueryApi } from '../../pages/services/queryApi';
+
+const apiSelectorAllTracks = spotyfyQueryApi.endpoints.getAllTrack.select();
 const spotyfySelector = (store) => store.spotyfy;
+
+export const allTracksSelector = createSelector(
+  apiSelectorAllTracks,
+  (trackResult) => trackResult?.data ?? []
+);
 
 export const loginDataSelector = (store) =>
   spotyfySelector(store)?.loginData || {};
@@ -23,3 +32,5 @@ export const RefreshTokenSelector = (store) =>
 
 export const GetPlayingTrackSelector = (store) =>
   spotyfySelector(store)?.playingTrack;
+
+export const GetFilerTrackSelector = (store) => spotyfySelector(store)?.filters ?? {};

@@ -9,6 +9,7 @@ const initialState = {
   errorMessage: {},
   playingTrack: '',
   userLogIn: false,
+  filters: {},
 };
 /* const initialAction = {
   type: '',
@@ -123,6 +124,42 @@ export default function SpotyfyReducer(state = initialState, action) {
         ...state,
         userLogIn: action.payload,
       };
+
+    case MyType.ADD_TRACK_FILTER: {
+      const { filters } = state;
+      const { typeFilter } = action.payload;
+      const { itemIndex } = action.payload;
+
+      if (filters[typeFilter]) {
+        const findIndex = filters[typeFilter]?.indexOf(itemIndex);
+        if (findIndex === -1) {
+          const newArrItems = [...filters[typeFilter], itemIndex];
+          return {
+            ...state,
+            filters: { ...state.filters, [typeFilter]: newArrItems },
+          };
+        }
+        const newSplitArr = [...filters[typeFilter]];
+        newSplitArr.splice(findIndex, 1);
+        return {
+          ...state,
+          filters: { ...state.filters, [typeFilter]: newSplitArr },
+        };
+      }
+      return {
+        ...state,
+        filters: { ...state.filters, [typeFilter]: [itemIndex] },
+      };
+    }
+    case MyType.ADD_TRACK_FILTER_YEAR: {
+      const { typeFilter } = action.payload;
+      const { value } = action.payload;
+
+      return {
+        ...state,
+        filters: { ...state.filters, [typeFilter]: value },
+      };
+    }
     default:
       return state;
   }

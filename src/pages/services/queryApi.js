@@ -2,9 +2,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useSelector } from 'react-redux';
-// eslint-disable-next-line import/no-cycle
-// import { store } from '../../store/store';
-// import { AccessTokenSelector } from '../../store/selectors/selectors';
+// import { GetFilerTrackSelector } from '../../store/selectors/selectors';
 import BASE_URL from '../../Base_URL';
 
 const DATA_TAG = { type: 'allTracks', id: 'LIST' };
@@ -24,6 +22,7 @@ export const spotyfyQueryApi = createApi({
   endpoints: (builder) => ({
     getAllTrack: builder.query({
       query: () => 'catalog/track/all/',
+      transformResponse: (response, meta, arg) => response,
       providesTags: (result = []) => [
         ...result.map(({ id }) => ({ type: DATA_TAG.type, id })),
       ],
@@ -31,7 +30,7 @@ export const spotyfyQueryApi = createApi({
 
     getTrackById: builder.query({
       query: ({ id }) => `catalog/track/${id}/`,
-      // invalidatesTags: [DATA_TAG],
+      providesTags: ['playingTrack'],
     }),
 
     setFavTrackById: builder.mutation({
@@ -39,7 +38,10 @@ export const spotyfyQueryApi = createApi({
         url: `catalog/track/${idTrack}/favorite/`,
         method: `${btnValue === 'like' ? 'POST' : 'DELETE'}`,
       }),
-      invalidatesTags: (post) => [{ type: DATA_TAG.type, id: post?.id }],
+      invalidatesTags: (post) => [
+        { type: DATA_TAG.type, id: post?.id },
+        { type: 'playingTrack' },
+      ],
     }),
   }),
 });

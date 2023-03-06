@@ -20,10 +20,12 @@ import {
   useGetTrackByIdQuery,
 } from '../services/queryApi';
 import { FetchPlayingTrack } from '../../store/actions/creators/creators';
+import { GetFilerTrackSelector } from '../../store/selectors/selectors';
 
-const playlistArr = require('../../components/Playlist.json');
+// const playlistArr = require('../../components/Playlist.json');
 
 function Main({ loginName }) {
+  // const filters = useSelector(GetFilerTrackSelector);
   const [idTrackCurrent, setIdTrackCurrent] = useState({ id: '', skip: true });
   const { data, error, isLoading } = useGetAllTrackQuery();
   const { theme } = useContext(ContextTheme);
@@ -40,7 +42,7 @@ function Main({ loginName }) {
 
   useEffect(() => {
     dispatch(FetchPlayingTrack(audioSrc));
-  }, [idTrackCurrent.id]);
+  }, [trackQueryData.data]);
 
   return (
     <GS.Wrapper theme={theme}>

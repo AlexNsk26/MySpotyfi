@@ -28,6 +28,14 @@ export const FilterTrack = styled.p`
   flex: none;
   order: 4;
   flex-grow: 0;
+  cursor: pointer;
+  ${({ isChecked }) => (!isChecked
+    ? css``
+    : css`
+          text-decoration-line: underline;
+          font-feature-settings: 'pnum' on, 'lnum' on;
+          color: #b672ff;
+        `)}
   &:hover {
     text-decoration-line: underline;
     font-feature-settings: 'pnum' on, 'lnum' on;
@@ -53,6 +61,23 @@ export const filterBlock = styled.div`
     background: #ffffff;
     border-radius: 10px;
   }
+`;
+
+export const filterCounter = styled.div`
+  border-radius: 50%;
+  background: #ad61ff;
+  width: 26px;
+  height: 25.5px;
+  position: relative;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 13px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 30px;
+  top: -14px;
 `;
 
 const filterMenues = {
