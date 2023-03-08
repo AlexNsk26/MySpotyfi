@@ -6,9 +6,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-constructor */
 import React, { useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ContextTheme } from '../Others/Context';
 import * as S from './HeaderStyle';
+import { FetchUserLogOut } from '../../store/actions/creators/creators';
 import logo from './img/logo.png';
 import logoLight from './img/LogoLight.png';
 import iconSvg from '../mainIcons/sprite.svg';
@@ -52,16 +54,24 @@ function FormMenuItems({ items, setTheme, theme }) {
   let arrItems = items;
   const content = [];
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const LogOut = (e) => {
-    sessionStorage.removeItem('MySpotyfiLogin');
-    e.preventDefault();
-    navigate('/login', { replace: true });
+  const LogOut = (e, path) => {
+    if (path === '/login') {
+      e.preventDefault();
+      localStorage.removeItem('MySpotyfyLoginData');
+      dispatch(FetchUserLogOut());
+      navigate('/login', { replace: true });
+    }
   };
 
   arrItems = items.map((item, index) => (
     <S.MenuItem key={String(index)}>
-      <S.MenuLink theme={theme} onClick={LogOut} to={item.path}>
+      <S.MenuLink
+        theme={theme}
+        onClick={(e) => LogOut(e, item.path)}
+        to={item.path}
+      >
         {item.title}
       </S.MenuLink>
     </S.MenuItem>
@@ -79,9 +89,9 @@ function FormMenuItems({ items, setTheme, theme }) {
 }
 function ClickBurgerFunc({ theme, setTheme }) {
   const items = [
-    { title: 'Главное', path: '/main' },
-    { title: 'Мой плейлист', path: '/sets/myPlaylist' },
-    { title: 'Выйти', path: '/' },
+    { title: 'Главное', path: '/' },
+    { title: 'Мой плейлист', path: '/sets/4' },
+    { title: 'Выйти', path: '/login' },
   ];
   const [click, setClick] = useState(false);
 

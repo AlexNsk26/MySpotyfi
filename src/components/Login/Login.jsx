@@ -15,6 +15,7 @@ import {
   loginDataErrorMSGSelector,
   AccessTokenSelector,
   RefreshTokenSelector,
+  GetIdTokenRefIntSelector,
 } from '../../store/selectors/selectors';
 import {
   fetchLogin,
@@ -22,7 +23,7 @@ import {
   fetchGetToken,
   fetchRefreshToken,
 } from '../../store/actions/thunks/thunks';
-import { FetchUserLogIn } from '../../store/actions/creators/creators';
+import { FetchUserLogIn, FetchRefreshTokenInterval } from '../../store/actions/creators/creators';
 
 const InputFields = [
   {
@@ -81,12 +82,13 @@ function LoginBlock() {
   const errorMessage = useSelector(loginDataErrorMSGSelector);
   const AccessToken = useSelector(AccessTokenSelector);
   const RefreshToken = useSelector(RefreshTokenSelector);
+  const idRefreshTokenInterval = useSelector(GetIdTokenRefIntSelector);
 
   const [userName, setUserName] = useState('');
   const [loginMail, setLoginMail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const [idRefreshTokenInterval, setIdRefreshTokenInterval] = useState(null);
+  // const [idRefreshTokenInterval, setIdRefreshTokenInterval] = useState(null);
   const loginStates = {
     states: {
       userName,
@@ -105,7 +107,7 @@ function LoginBlock() {
     if (idRefreshTokenInterval) {
       clearInterval(idRefreshTokenInterval);
     }
-  }, [idRefreshTokenInterval]);
+  }, []);
   useEffect(() => {
     const getToken = loginData?.id > 0;
     if (getToken && AccessToken === null) {
@@ -118,17 +120,19 @@ function LoginBlock() {
       const id = setInterval(() => {
         dispatch(fetchRefreshToken());
       }, 40000);
-      setIdRefreshTokenInterval(id);
       localStorage.setItem(
         'MySpotyfyLoginData',
         JSON.stringify({
           id: loginData.id,
           username: loginData.username,
           refreshToken: RefreshToken,
+          accessToken: AccessToken,
+          idRefTokenInt: id,
         })
       );
+      dispatch(FetchRefreshTokenInterval(id));
       dispatch(FetchUserLogIn(true));
-      navigate('/main');
+      navigate('/');
     }
   }, [loginData, AccessToken]);
   return (

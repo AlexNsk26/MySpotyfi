@@ -68,6 +68,11 @@ export const FetchRefreshTokenSuccess = (tokenData) => ({
   },
 });
 
+export const FetchRefreshTokenInterval = (idTokenInt) => ({
+  type: MyType.USER_REFRESH_TOKEN_INT,
+  payload: idTokenInt,
+});
+
 export const FetchRefreshTokenFailure = (error) => ({
   type: MyType.USER_REFRESH_TOKEN_FAILURE,
   payload: {
@@ -84,6 +89,16 @@ export const FetchPlayingTrack = (audio) => ({
 export const FetchUserLogIn = (logIn) => ({
   type: MyType.USER_LOGIN,
   payload: logIn,
+});
+
+export const FetchUserLogOut = () => ({
+  type: MyType.USER_LOGOUT,
+  payload: {},
+});
+
+export const FetchUserPreLogIn = (preLoginData) => ({
+  type: MyType.USER_PRELOGIN,
+  payload: { ...preLoginData },
 });
 
 export const FetchTrackFilter = (filterData) => ({

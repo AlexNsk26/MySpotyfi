@@ -10,14 +10,10 @@ import React, {
   forwardRef,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import useSound from 'use-sound';
-// import { render } from '@testing-library/react';
 import { ContextTheme } from '../Others/Context';
 import iconSvg from '../mainIcons/sprite.svg';
 import { SceletonTrackPlayer } from '../Others/Sceleton';
-// import GetMyLoginData, { FindMyIdFav } from '../LoginStotigeData';
 import { GetPlayingTrackSelector } from '../../store/selectors/selectors';
-// import { useSetFavTrackByIdMutation } from '../../pages/services/queryApi';
 import LikeDislike from './LikeDislike';
 
 import * as S from './PlayerStyle';
@@ -29,6 +25,8 @@ function Player({ IsLoading, trackData }) {
   const { theme } = useContext(ContextTheme);
 
   useEffect(() => {
+    audio.pause();
+    setPlayBtn(false);
     setAudio(new Audio(PlayingTrackSrc));
   }, [PlayingTrackSrc]);
 
@@ -105,11 +103,15 @@ export default Player;
 
 function GetProgressBar({ audio, isPlaying, theme }) {
   const [progress, setProgress] = useState(0);
+  const trackSrc = useSelector(GetPlayingTrackSelector);
   let timerId;
   const maxTime = audio.duration;
   const { currentTime } = audio;
   const duration = (currentTime / maxTime) * 100;
 
+  useEffect(() => {
+    setProgress(0);
+  }, [trackSrc]);
   useEffect(() => {
     if (isPlaying) {
       timerId = setInterval(
@@ -122,7 +124,9 @@ function GetProgressBar({ audio, isPlaying, theme }) {
 
   return (
     <S.BarPlayerProgress theme={theme}>
-      <S.BarPlayerProgressPlayed $duration={String(progress)} />
+      <S.BarPlayerProgressPlayed
+        $duration={String(progress)}
+      />
     </S.BarPlayerProgress>
   );
 }

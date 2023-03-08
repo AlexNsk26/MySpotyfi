@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import * as MyType from '../actions/types/types';
 
 const initialState = {
@@ -5,15 +6,13 @@ const initialState = {
   error: null,
   loginData: {},
   accessToken: null,
+  idRefTokenInt: null,
   refreshToken: null,
   errorMessage: {},
   playingTrack: '',
   userLogIn: false,
   filters: {},
 };
-/* const initialAction = {
-  type: '',
-}; */
 
 // eslint-disable-next-line default-param-last
 export default function SpotyfyReducer(state = initialState, action) {
@@ -113,6 +112,13 @@ export default function SpotyfyReducer(state = initialState, action) {
         errorMessage: action.payload.errorMessage,
       };
 
+    case MyType.USER_REFRESH_TOKEN_INT: {
+      return {
+        ...state,
+        idRefTokenInt: action.payload,
+      };
+    }
+
     case MyType.ADD_TRACK_PLAYING:
       return {
         ...state,
@@ -123,7 +129,23 @@ export default function SpotyfyReducer(state = initialState, action) {
       return {
         ...state,
         userLogIn: action.payload,
+        /*         loginData: action.payload.loginData,
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken, */
       };
+
+    case MyType.USER_PRELOGIN:
+      return {
+        ...state,
+        userLogIn: true,
+        loginData: action.payload.loginData,
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
+        idRefTokenInt: action.payload.idRefTokenInt,
+      };
+
+    case MyType.USER_LOGOUT:
+      return { ...initialState, idRefTokenInt: state.idRefTokenInt };
 
     case MyType.ADD_TRACK_FILTER: {
       const { filters } = state;
@@ -141,9 +163,21 @@ export default function SpotyfyReducer(state = initialState, action) {
         }
         const newSplitArr = [...filters[typeFilter]];
         newSplitArr.splice(findIndex, 1);
+        if (newSplitArr.length) {
+          return {
+            ...state,
+            filters: { ...state.filters, [typeFilter]: newSplitArr },
+          };
+        }
+        const newFilters = {};
+        for (const [key, value] of Object.entries(state.filters)) {
+          if (key !== typeFilter) {
+            newFilters[key] = value;
+          }
+        }
         return {
           ...state,
-          filters: { ...state.filters, [typeFilter]: newSplitArr },
+          filters: { ...newFilters },
         };
       }
       return {

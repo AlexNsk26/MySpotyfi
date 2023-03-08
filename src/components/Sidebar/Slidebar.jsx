@@ -19,9 +19,9 @@ function Sidebar({ loginName, forSets = false }) {
           <S.SidebarList>
             <SidebarList
               list={[
-                { img: playlist01, typeSet: 'dayPlaylist' },
-                { img: playlist02, typeSet: 'thousandHits' },
-                { img: playlist03, typeSet: 'IndyPower' },
+                { img: playlist01, typeSet: '1' },
+                { img: playlist02, typeSet: '2' },
+                { img: playlist03, typeSet: '3' },
               ]}
             />
           </S.SidebarList>
@@ -38,7 +38,7 @@ function SidebarList(props) {
     // eslint-disable-next-line react/no-array-index-key
     <S.SidebarItem key={index.toString()}>
       <Link to={`/sets/${item.typeSet}`}>
-        <S.SidebarImg src={item.img} alt="day's playlist" />
+        <S.SidebarImg src={item.img} alt="" />
       </Link>
     </S.SidebarItem>
   ));

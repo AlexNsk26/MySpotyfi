@@ -1,6 +1,7 @@
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/prefer-default-export */
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import Main from './pages/main/index';
@@ -21,27 +22,32 @@ import GetMyLoginData from './components/LoginStotigeData';
 export function AppRoutes() {
   const loginDataStor = useSelector(loginDataSelector);
   const AccessToken = useSelector(AccessTokenSelector);
+
   const userIsLogIn = useSelector(userLogInSelector);
+
   const loginData =
     loginDataStor && loginDataStor.username ? loginDataStor : GetMyLoginData();
   const loginDataUsername = loginData ? loginData.username : '';
+  // const { typeSet } = useParams;
   return (
     <Routes>
-      <Route path="/main" element={<Main loginName={loginDataUsername} />} />
       <Route
         path="/"
         element={
-          // eslint-disable-next-line react/jsx-wrap-multilines
           <ProtectedRoute isAllowed={userIsLogIn}>
-            <Login />
+            <Main loginName={loginDataUsername} />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sets/:typeSet"
+        element={
+          <ProtectedRoute isAllowed={userIsLogIn}>
+            <Sets loginName={loginDataUsername} />
           </ProtectedRoute>
         }
       />
       <Route path="/login" element={<Login />} />
-      <Route
-        path="/sets/:typeSet"
-        element={<Sets loginName={loginDataUsername} />}
-      />
       <Route path="*" element={<Error />} />
     </Routes>
   );

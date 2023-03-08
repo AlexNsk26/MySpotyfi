@@ -28,7 +28,7 @@ export function Playlist({ setIdTrack, allTracksData }) {
   const getPlaylistArr = (dataAllTracks) => {
     const dataAllTracksConvert = dataAllTracks.map((track) => ({
       ...track,
-      isLike: FindMyIdFav(track.stared_user),
+      isLike: track.stared_user ? FindMyIdFav(track.stared_user) : true,
     }));
     return dataAllTracksConvert;
   };

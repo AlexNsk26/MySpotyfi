@@ -33,4 +33,11 @@ export const RefreshTokenSelector = (store) =>
 export const GetPlayingTrackSelector = (store) =>
   spotyfySelector(store)?.playingTrack;
 
-export const GetFilerTrackSelector = (store) => spotyfySelector(store)?.filters ?? {};
+export const GetFilerTrackSelector = (store) =>
+  spotyfySelector(store)?.filters ?? {};
+
+export const yearFilterSelector = (store) =>
+  spotyfySelector(store)?.filters['button-year'];
+
+export const GetIdTokenRefIntSelector = (store) =>
+  spotyfySelector(store)?.idRefTokenInt;

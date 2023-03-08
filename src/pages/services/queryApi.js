@@ -6,7 +6,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import BASE_URL from '../../Base_URL';
 
 const DATA_TAG = { type: 'allTracks', id: 'LIST' };
-
+const DATA_SELECT_TAG = { type: 'SelectionById', id: 'LIST' };
+const DATA_FAV_TAG = { type: 'allFavTracks', id: 'LIST' };
+// const convertResponsByFilters = (response, filters) => {};
 export const spotyfyQueryApi = createApi({
   reducerPath: 'spotyfyApi',
   baseQuery: fetchBaseQuery({
@@ -41,6 +43,28 @@ export const spotyfyQueryApi = createApi({
       invalidatesTags: (post) => [
         { type: DATA_TAG.type, id: post?.id },
         { type: 'playingTrack' },
+        { type: DATA_SELECT_TAG.type, id: post?.id },
+        { type: DATA_FAV_TAG.type, id: post?.id },
+      ],
+    }),
+    getSelectionById: builder.query({
+      query: ({ idSet: id }) => `catalog/selection/${id}/`,
+      providesTags: (result = []) => [
+        ...result.items.map(({ id: idTrack }) => ({
+          type: DATA_SELECT_TAG.type,
+          id: idTrack,
+        })),
+      ],
+    }),
+    getAllFavTracks: builder.query({
+      query: () => 'catalog/track/favorite/all/',
+      transformResponse: (response, meta, arg) => response,
+      transformErrorResponse: (response, meta, arg) => response,
+      providesTags: (result = []) => [
+        ...result.map(({ id }) => ({
+          type: DATA_FAV_TAG.type,
+          id,
+        })),
       ],
     }),
   }),
@@ -48,6 +72,8 @@ export const spotyfyQueryApi = createApi({
 
 export const {
   useGetAllTrackQuery,
+  useGetAllFavTracksQuery,
   useGetTrackByIdQuery,
+  useGetSelectionByIdQuery,
   useSetFavTrackByIdMutation,
 } = spotyfyQueryApi;
