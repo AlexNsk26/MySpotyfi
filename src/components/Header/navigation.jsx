@@ -77,7 +77,7 @@ export function FormMenuItems({ items, setTheme, theme }) {
     </S.MenuItem>
   ));
   arrItems.push(
-    <S.MenuItem data-TestId="themeSwitcher" key="3" onClick={setTheme}>
+    <S.MenuItem data-testid="themeSwitcher" key="3" onClick={setTheme}>
       <SvgTheme theme={theme} />
     </S.MenuItem>
   );

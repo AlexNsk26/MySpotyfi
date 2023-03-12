@@ -38,6 +38,13 @@ export const FetchSignUpFailure = (error) => ({
   },
 });
 
+export const FetchSignUpPassNotEqual = (error) => ({
+  type: MyType.USER_SIGNUP_PASSNOTEQUAL,
+  payload: {
+    ...error,
+  },
+});
+
 export const FetchAccessTokenStarted = () => ({
   type: MyType.USER_ACCESS_TOKEN_STARTED,
 });

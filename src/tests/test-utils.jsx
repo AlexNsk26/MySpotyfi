@@ -11,17 +11,17 @@ import { Provider } from 'react-redux';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { ContextTheme } from '../components/Others/Context';
 
-const themes = { light: 'lightTheme', dark: 'darkTheme' };
+// const themes = { light: 'lightTheme', dark: 'darkTheme' };
 function AllProviders({ children }) {
-  const [currentTheme, setCurrentTheme] = useState(themes.dark);
+  const [currentTheme, setCurrentTheme] = useState('darkTheme');
 
   const toggleTheme = () => {
-    if (currentTheme === themes.dark) {
-      setCurrentTheme(themes.light);
+    if (currentTheme === 'darkTheme') {
+      setCurrentTheme('lightTheme');
       return;
     }
 
-    setCurrentTheme(themes.dark);
+    setCurrentTheme('darkTheme');
   };
 
   return (
@@ -38,7 +38,12 @@ function AllProviders({ children }) {
  */
 export function withStoreProvider(store) {
   return function Wrapper({ children }) {
-    return <Provider store={store}>{AllProviders(children)}</Provider>;
+    // console.log(children);
+    return (
+      <Provider store={store}>
+        <AllProviders>{children}</AllProviders>
+      </Provider>
+    );
   };
 }
 

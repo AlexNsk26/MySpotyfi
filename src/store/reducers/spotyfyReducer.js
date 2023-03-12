@@ -64,6 +64,13 @@ export default function SpotyfyReducer(state = initialState, action) {
         error: action.payload.error,
         errorMessage: action.payload.errorMessage,
       };
+
+    case MyType.USER_SIGNUP_PASSNOTEQUAL:
+      return {
+        ...state,
+        errorMessage: action.payload,
+      };
+
     case MyType.USER_ACCESS_TOKEN_STARTED: {
       return {
         ...state,
