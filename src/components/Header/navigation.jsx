@@ -17,7 +17,7 @@ import iconSvg from '../mainIcons/sprite.svg';
 
 // const { useState } = React;
 
-function MainNavigation(props) {
+function MainNavigation() {
   const { theme, setTheme } = useContext(ContextTheme);
   return (
     <S.MainNav theme={theme}>
@@ -50,7 +50,7 @@ function SvgTheme({ theme }) {
   );
 }
 
-function FormMenuItems({ items, setTheme, theme }) {
+export function FormMenuItems({ items, setTheme, theme }) {
   let arrItems = items;
   const content = [];
   const navigate = useNavigate();
@@ -77,7 +77,7 @@ function FormMenuItems({ items, setTheme, theme }) {
     </S.MenuItem>
   ));
   arrItems.push(
-    <S.MenuItem key="3" onClick={setTheme}>
+    <S.MenuItem data-testid="themeSwitcher" key="3" onClick={setTheme}>
       <SvgTheme theme={theme} />
     </S.MenuItem>
   );

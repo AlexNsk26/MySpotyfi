@@ -23,7 +23,11 @@ import {
   fetchGetToken,
   fetchRefreshToken,
 } from '../../store/actions/thunks/thunks';
-import { FetchUserLogIn, FetchRefreshTokenInterval } from '../../store/actions/creators/creators';
+import {
+  FetchUserLogIn,
+  FetchRefreshTokenInterval,
+  FetchSignUpPassNotEqual,
+} from '../../store/actions/creators/creators';
 
 const InputFields = [
   {
@@ -248,6 +252,10 @@ function ButtonLogIn({ dispatch, loginStates, isLoading }) {
 
 function ButtonGetSignUp({ signUp, setSignUp, dispatch, loginStates }) {
   const navigate = useNavigate();
+  const CheckPassword = () => {
+    const { password: pass, repeatPassword: repPass } = loginStates;
+    return pass === repPass;
+  };
   function HandelClickBtnSignUp() {
     const signUpDataObj = {
       username: loginStates.userName,
@@ -257,6 +265,12 @@ function ButtonGetSignUp({ signUp, setSignUp, dispatch, loginStates }) {
     if (!signUp) {
       setSignUp((prev) => !prev);
     } else {
+      if (!CheckPassword()) {
+        dispatch(
+          FetchSignUpPassNotEqual({ SignUpPassNotEqual: 'Пароли не совпадают' })
+        );
+        return;
+      }
       dispatch(fetchSignUp(signUpDataObj));
     }
     // return navigate('/main', { replace: true });
