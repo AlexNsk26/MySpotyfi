@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Global = `
 * {
@@ -46,12 +46,19 @@ body {
   color: #ffffff;
 }
 `;
-
+const BGC = {
+  darkTheme: css`
+    background-color: #181818;
+  `,
+  lightTheme: css`
+    background-color: #ffffff;
+  `,
+};
 export const Wrapper = styled.div`
   width: 100%;
   min-height: 100%;
   overflow: hidden;
-  background-color: #181818;
+  ${({ theme }) => BGC[theme]};
 `;
 
 export const Container = styled.div`
@@ -59,7 +66,7 @@ export const Container = styled.div`
   height: 100vh;
   margin: 0 auto;
   position: relative;
-  background-color: #181818;
+  ${({ theme }) => BGC[theme]}; ;
 `;
 
 export const Main = styled.div`
@@ -74,6 +81,7 @@ export const Main = styled.div`
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+  height: 100%;
 `;
 
 export const MainCenterblock = styled.div`

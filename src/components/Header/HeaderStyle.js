@@ -1,10 +1,27 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
+
+const MainNavTheme = {
+  darkTheme: css`
+    background-color: #181818;
+  `,
+  lightTheme: css`
+    background-color: #f6f5f3;
+  `,
+};
+const ColorTheme = {
+  darkTheme: css`
+    color: #ffffff;
+  `,
+  lightTheme: css`
+    color: #000000;
+  `,
+};
 
 export const MainNav = styled.div`
   width: 244px;
-  background-color: #181818;
   padding: 20px 0 20px 36px;
+  ${({ theme }) => MainNavTheme[theme]};
 `;
 
 export const NavLogo = styled.div`
@@ -28,17 +45,24 @@ export const MenuItem = styled.li`
 `;
 
 export const MenuLink = styled(Link)`
-  color: #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
 `;
-
+const BurgerLineColorTheme = {
+  darkTheme: css`
+    background-color: #d3d3d3;
+  `,
+  lightTheme: css`
+    background-color: #000000;
+  `,
+};
 export const BurgerLine = styled.span`
   display: inline-block;
   width: 100%;
   height: 1px;
-  background-color: #d3d3d3;
+  ${({ theme }) => BurgerLineColorTheme[theme]};
 `;
 
 export const NavMenu = styled.div`
@@ -64,4 +88,13 @@ export const NavBurger = styled.div`
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
+`;
+
+export const SvgTheme = styled.svg`
+  width: 39px;
+  height: 39px;
+  flex: none;
+  order: 3;
+  flex-grow: 0;
+  cursor: pointer;
 `;

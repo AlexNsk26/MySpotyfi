@@ -1,17 +1,34 @@
+/* eslint-disable react/jsx-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-unused-vars */
-import React from 'react';
-import useSound from 'use-sound';
-import { render } from '@testing-library/react';
-import trackSrc from './Bobby_Marleni_-_Dropin.mp3';
+import React, {
+  useContext,
+  useRef,
+  useState,
+  useEffect,
+  forwardRef,
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { ContextTheme } from '../Others/Context';
 import iconSvg from '../mainIcons/sprite.svg';
 import { SceletonTrackPlayer } from '../Others/Sceleton';
+import { GetPlayingTrackSelector } from '../../store/selectors/selectors';
+import LikeDislike from './LikeDislike';
+
 import * as S from './PlayerStyle';
 
-const { useRef, useState, useEffect, forwardRef } = React;
-function Player(props) {
-  const [audio] = useState(new Audio(trackSrc));
+function Player({ IsLoading, trackData }) {
+  const PlayingTrackSrc = useSelector(GetPlayingTrackSelector);
+  const [audio, setAudio] = useState(new Audio(''));
   const [isPlaying, setPlayBtn] = useState(false);
+  const { theme } = useContext(ContextTheme);
+
+  useEffect(() => {
+    audio.pause();
+    setPlayBtn(false);
+    setAudio(new Audio(PlayingTrackSrc));
+  }, [PlayingTrackSrc]);
 
   const ChangeVolume = (e) => {
     const { target } = e;
@@ -19,14 +36,9 @@ function Player(props) {
   };
 
   return (
-    <S.Bar>
+    <S.Bar theme={theme}>
       <S.BarContent>
-        <GetProgressBar
-          audio={audio}
-          isPlaying={isPlaying}
-          /* timerId={timerId}
-          setTimerId={setTimerId} */
-        />
+        <GetProgressBar theme={theme} audio={audio} isPlaying={isPlaying} />
         <S.BarPlayerBlock>
           <S.BarPlayer>
             <S.Playercontrols>
@@ -44,38 +56,37 @@ function Player(props) {
               />
             </S.Playercontrols>
             <S.PlayerTrackPlay>
-              {props.IsLoading ? (
-                <SceletonTrackPlayer />
+              {IsLoading ? (
+                <SceletonTrackPlayer theme={theme} />
               ) : (
-                <TrackPlay authorLink="Ты та..." albumLink="Баста" />
+                <TrackPlay
+                  theme={theme}
+                  authorLink={trackData?.name}
+                  albumLink={trackData?.author}
+                />
               )}
             </S.PlayerTrackPlay>
 
-            <S.TrackPlayLikeDis>
-              <S.TrackPlayLikeDisIcon>
-                <S.TrackPlayLikeDisSvg $like="like" alt="like">
-                  <use xlinkHref={`${iconSvg}#icon-like`} />
-                </S.TrackPlayLikeDisSvg>
-              </S.TrackPlayLikeDisIcon>
-
-              <S.TrackPlayLikeDisIcon $dislike="dislike">
-                <S.TrackPlayLikeDisSvg $like="dislike" alt="dislike">
-                  <use xlinkHref={`${iconSvg}#icon-dislike`} />
-                </S.TrackPlayLikeDisSvg>
-              </S.TrackPlayLikeDisIcon>
-            </S.TrackPlayLikeDis>
+            <LikeDislike trackData={trackData} />
           </S.BarPlayer>
 
           <S.BarVolumeBlock>
             <S.VolumeContent>
               <S.VolumeImage>
                 <S.VolumeSvg alt="volume">
-                  <use xlinkHref={`${iconSvg}#icon-volume`} />
+                  <use
+                    xlinkHref={
+                      theme === 'darkTheme'
+                        ? `${iconSvg}#icon-volume`
+                        : `${iconSvg}#icon-volume-light`
+                    }
+                  />
                 </S.VolumeSvg>
               </S.VolumeImage>
 
               <S.VolumeProgress>
                 <S.VolumeProgressLine
+                  theme={theme}
                   onChange={ChangeVolume}
                   type="range"
                   name="range"
@@ -90,13 +101,17 @@ function Player(props) {
 }
 export default Player;
 
-function GetProgressBar({ audio, isPlaying }) {
+function GetProgressBar({ audio, isPlaying, theme }) {
   const [progress, setProgress] = useState(0);
+  const trackSrc = useSelector(GetPlayingTrackSelector);
   let timerId;
   const maxTime = audio.duration;
   const { currentTime } = audio;
   const duration = (currentTime / maxTime) * 100;
 
+  useEffect(() => {
+    setProgress(0);
+  }, [trackSrc]);
   useEffect(() => {
     if (isPlaying) {
       timerId = setInterval(
@@ -108,8 +123,10 @@ function GetProgressBar({ audio, isPlaying }) {
   });
 
   return (
-    <S.BarPlayerProgress>
-      <S.BarPlayerProgressPlayed $duration={String(progress)} />
+    <S.BarPlayerProgress theme={theme}>
+      <S.BarPlayerProgressPlayed
+        $duration={String(progress)}
+      />
     </S.BarPlayerProgress>
   );
 }
@@ -177,19 +194,25 @@ function PlayerControls({ list, audio, isPlaying, setPlayBtn }) {
 function TrackPlay(props) {
   return (
     <>
-      <S.TrackPlayImage>
+      <S.TrackPlayImage theme={props.theme}>
         <S.TrackPlaySvg alt="music">
-          <use xlinkHref={`${iconSvg}#icon-note`} />
+          <use
+            xlinkHref={
+              props.theme === 'darkTheme'
+                ? `${iconSvg}#icon-note`
+                : `${iconSvg}#icon-note-light`
+            }
+          />
         </S.TrackPlaySvg>
       </S.TrackPlayImage>
       <S.TrackGroup>
         <S.TrackPlayAuthor>
-          <S.TrackPlayAuthorLink href="http://">
+          <S.TrackPlayAuthorLink theme={props.theme} href="http://">
             {props.authorLink}
           </S.TrackPlayAuthorLink>
         </S.TrackPlayAuthor>
         <S.TrackPlayAlbum>
-          <S.TrackPlayAlbumLink href="http://">
+          <S.TrackPlayAlbumLink theme={props.theme} href="http://">
             {props.albumLink}
           </S.TrackPlayAlbumLink>
         </S.TrackPlayAlbum>

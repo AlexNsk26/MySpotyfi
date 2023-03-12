@@ -1,8 +1,13 @@
 import styled, { css } from 'styled-components';
 
+const CenterBlockSearchBorderTheme = {
+  darkTheme: '#4E4E4E',
+  lightTheme: '#D9D9D9',
+};
+
 export const CenterBlockSearch = styled.div`
   width: 100%;
-  border-bottom: 1px solid #4e4e4e;
+  border-bottom: 1px solid ${({ theme }) => CenterBlockSearchBorderTheme[theme]};
   margin-bottom: 51px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -16,6 +21,15 @@ export const CenterBlockSearch = styled.div`
   align-items: center;
 `;
 
+const ColorTheme = {
+  darkTheme: css`
+    color: #ffffff;
+  `,
+  lightTheme: css`
+    color: #000000;
+  `,
+};
+
 export const CenterBlockH2 = styled.h2`
   font-style: normal;
   font-weight: 400;
@@ -25,7 +39,7 @@ export const CenterBlockH2 = styled.h2`
   margin-bottom: 45px;
   letter-spacing: -0.013em;
   font-feature-settings: 'pnum' on, 'lnum' on;
-  color: #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
 `;
 
 export const SearchSvg = styled.svg`
@@ -47,10 +61,10 @@ export const SearchText = styled.input`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
   &::-webkit-input-placeholder {
     background-color: transparent;
-    color: #ffffff;
+    ${({ theme }) => ColorTheme[theme]};
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -68,9 +82,14 @@ export const CenterBlockContent = styled.div`
   flex-direction: column;
 `;
 
-const Sceleton = css`
-  background: #313131;
-`;
+const SceletonColorTheme = {
+  darkTheme: css`
+    background: #313131;
+  `,
+  lightTheme: css`
+    background: #F6F4F4;
+  `,
+};
 
 export const SceletonMainTrack = styled.div`
   display: flex;
@@ -83,30 +102,30 @@ export const SceletonMainTrack = styled.div`
 export const SceletonTrackImage = styled.div`
   width: 51px;
   height: 51px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 
 export const SceletonTrackTime = styled.div`
   width: 71px;
   height: 19px;
   margin-left: 75px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 
 export const SceletonTrackTitle = styled.div`
   width: 241px;
   height: 19px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 export const SceletonTrackAuthor = styled.div`
   width: 271px;
   height: 19px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 export const SceletonTrackAlbum = styled.div`
   width: 305px;
   height: 19px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 export const SceletonTrackPlayerTitles = styled.div`
   display: flex;
@@ -118,7 +137,7 @@ export const SceletonTrackPlayerTitle = styled.div`
   width: 59px;
   height: 15px;
   margin-top: 5px;
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 const SceletonPlaylistImgCss = css`
   width: 250px;
@@ -126,7 +145,7 @@ const SceletonPlaylistImgCss = css`
 `;
 export const SceletonPlaylistImg = styled.div`
   ${SceletonPlaylistImgCss}
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
 `;
 export const SceletonTrackPlayer = styled.div`
   display: flex;
@@ -160,14 +179,19 @@ export const SidebarPersonalName = styled.p`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
   margin-right: 16px;
 `;
+
+const SidebarAvatarParamColorTheme = {
+  darkTheme: '#313131',
+  lightTheme: '#F6F5F3',
+};
 
 export const SidebarAvatar = styled.div`
   width: 43px;
   height: 43px;
-  background-color: #313131;
+  background-color: ${({ theme }) => SidebarAvatarParamColorTheme[theme]};
   border-radius: 50%;
 `;
 
@@ -201,7 +225,7 @@ export const SidebarBlock = styled.div`
 
 export const SidebarItemSceleton = styled.div`
   ${SceletonPlaylistImgCss}
-  ${Sceleton}
+  ${({ theme }) => SceletonColorTheme[theme]};
   &:not(:last-child) {
     margin-bottom: 30px;
   }

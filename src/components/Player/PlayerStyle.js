@@ -1,11 +1,29 @@
 import styled, { css } from 'styled-components';
 
+const BarParamColorTheme = {
+  darkTheme: css`
+    background: rgba(28, 28, 28, 0.9);
+  `,
+  lightTheme: css`
+    background: rgba(255, 255, 255, 0.9);
+  `,
+};
+
+const ColorTheme = {
+  darkTheme: css`
+    color: #ffffff;
+  `,
+  lightTheme: css`
+    color: #000000;
+  `,
+};
+
 export const Bar = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgba(28, 28, 28, 0.5);
+  ${({ theme }) => BarParamColorTheme[theme]};
 `;
 
 export const BarContent = styled.div`
@@ -18,10 +36,15 @@ export const BarContent = styled.div`
   flex-direction: column;
 `;
 
+const BarPlayerProgressParamColorTheme = {
+  darkTheme: '#2e2e2e',
+  lightTheme: '#D9D9D9',
+};
+
 export const BarPlayerProgress = styled.div`
   width: 100%;
   height: 5px;
-  background: #2e2e2e;
+  background: ${({ theme }) => BarPlayerProgressParamColorTheme[theme]};
   display: flex;
   align-items: center;
 `;
@@ -101,7 +124,7 @@ export const TrackPlayLikeDis = styled.div`
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-left: 26%;
+  margin-left: 16px;
 `;
 
 const LikeDisSvg = {
@@ -114,35 +137,32 @@ const LikeDisSvg = {
     height: 13px;
   `,
 };
+const TrackPlayLikeDisIconActiveParamColorTheme = {
+  darkTheme: '#FFFFFF',
+  lightTheme: '#AD61FF',
+};
 
 export const TrackPlayLikeDisSvg = styled.svg`
-  fill: transparent;
+  fill: ${({ isLike }) => (isLike ? '#696969' : 'transparent')};;
   stroke: #696969;
   cursor: pointer;
   ${({ $like }) => LikeDisSvg[$like]}
+  &:hover {
+    fill: transparent;
+    stroke: #acacac;
+    cursor: pointer;
+  }
+  &:active {
+    fill: transparent;
+    stroke: ${({ theme }) => TrackPlayLikeDisIconActiveParamColorTheme[theme]};
+    cursor: pointer;
+  }
 `;
 
 export const TrackPlayLikeDisIcon = styled.div`
   padding: 5px;
   ${({ $dislike }) => ($dislike === 'dislike' ? DislikeAdd : css``)}
-  &:hover ${TrackPlayLikeDisSvg} {
-    fill: transparent;
-    stroke: #acacac;
-    cursor: pointer;
-  }
-  &:active ${TrackPlayLikeDisSvg} {
-    fill: transparent;
-    stroke: #ffffff;
-    cursor: pointer;
-  }
 `;
-
-/*   ._btn-icon:active .track-play__like-svg,
-._btn-icon:active .track-play__dislike-svg {
-  fill: #696969;
-  stroke: #ffffff;
-  cursor: pointer;
-} */
 
 export const BarVolumeBlock = styled.div`
   width: auto;
@@ -188,6 +208,20 @@ export const VolumeProgress = styled.div`
   cursor: pointer;
 `;
 
+const VolumeProgressLineParamColorTheme = {
+  darkTheme: '#797979',
+  lightTheme: '#C4C4C4',
+};
+
+const VolumeProgressLineThumbParamColorTheme = {
+  darkTheme: '#1a1a1a',
+  lightTheme: '#ffffff',
+};
+
+const VolumeProgressLineThumbBorderParamColorTheme = {
+  darkTheme: '#ffffff',
+  lightTheme: '#B1B1B1',
+};
 export const VolumeProgressLine = styled.input`
   width: 109px;
   -webkit-appearance: none;
@@ -196,7 +230,7 @@ export const VolumeProgressLine = styled.input`
     -webkit-appearance: none;
     width: 26px;
     height: 0px;
-    border: 2px solid #ffffff;
+    border: 2px solid ${({ theme }) => VolumeProgressLineParamColorTheme[theme]};
     margin-top: -14px;
   }
   &::-webkit-slider-thumb {
@@ -204,8 +238,9 @@ export const VolumeProgressLine = styled.input`
     box-sizing: border-box;
     width: 12px;
     height: 12px;
-    background: #1a1a1a;
-    border: 2px solid #ffffff;
+    background: ${({ theme }) => VolumeProgressLineThumbParamColorTheme[theme]};
+    border: 2px solid
+      ${({ theme }) => VolumeProgressLineThumbBorderParamColorTheme[theme]};
     border-radius: 50%;
     margin-top: -7px;
   }
@@ -241,10 +276,15 @@ export const PlayerBtnSvg = styled.svg`
   ${({ $btn }) => PlayerBtnPlaySvg($btn)}
 `;
 
+const TrackTitleImageParamColorTheme = {
+  darkTheme: '#313131',
+  lightTheme: '#F6F4F4',
+};
+
 export const TrackPlayImage = styled.div`
   width: 51px;
   height: 51px;
-  background-color: #313131;
+  background-color: ${({ theme }) => TrackTitleImageParamColorTheme[theme]};
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -285,7 +325,7 @@ export const TrackPlayAuthorLink = styled.a`
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
   white-space: nowrap;
 `;
 
@@ -301,5 +341,5 @@ export const TrackPlayAlbumLink = styled.a`
   font-weight: 400;
   font-size: 13px;
   line-height: 24px;
-  color: #ffffff;
+  ${({ theme }) => ColorTheme[theme]};
 `;

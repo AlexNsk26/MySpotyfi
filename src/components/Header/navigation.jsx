@@ -5,90 +5,115 @@
 /* eslint-disable react/no-unused-class-component-methods */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-useless-constructor */
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { ContextTheme } from '../Others/Context';
 import * as S from './HeaderStyle';
+import { FetchUserLogOut } from '../../store/actions/creators/creators';
 import logo from './img/logo.png';
+import logoLight from './img/LogoLight.png';
+import iconSvg from '../mainIcons/sprite.svg';
 
 // const { useState } = React;
 
 function MainNavigation(props) {
+  const { theme, setTheme } = useContext(ContextTheme);
   return (
-    <S.MainNav>
+    <S.MainNav theme={theme}>
       <S.NavLogo>
-        <Logo />
+        <Logo theme={theme} />
       </S.NavLogo>
-      <ClickBurger />
+      <ClickBurgerFunc theme={theme} setTheme={setTheme} />
     </S.MainNav>
   );
 }
 export default MainNavigation;
 
-function Logo() {
-  return <S.LogoImage src={logo} alt="logo" />;
+function Logo({ theme }) {
+  return (
+    <S.LogoImage src={theme === 'darkTheme' ? logo : logoLight} alt="logo" />
+  );
 }
 
-class ClickBurger extends React.Component {
-  constructor() {
-    super();
-    this.state = { click: false };
-    this.items = [
-      { title: 'Главное', path: '/main' },
-      { title: 'Мой плейлист', path: '/sets/myPlaylist' },
-      { title: 'Выйти', path: '/' },
-    ];
-    this.MenuItems = this.MenuItems.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-  }
+function SvgTheme({ theme }) {
+  return (
+    <S.SvgTheme>
+      <use
+        xlinkHref={
+          theme === 'darkTheme'
+            ? `${iconSvg}#darkTheme`
+            : `${iconSvg}#lightTheme`
+        }
+      />
+    </S.SvgTheme>
+  );
+}
 
-  // RenderLink = (props) => <Link to={props.path}>{props.children}</Link>;
-  LogOut = (e) => {
-    sessionStorage.removeItem('MySpotyfiLogin');
-    const navigate = useNavigate();
-    e.preventDefault();
-    navigate('/login', { replace: true });
+function FormMenuItems({ items, setTheme, theme }) {
+  let arrItems = items;
+  const content = [];
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const LogOut = (e, path) => {
+    if (path === '/login') {
+      e.preventDefault();
+      localStorage.removeItem('MySpotyfyLoginData');
+      dispatch(FetchUserLogOut());
+      navigate('/login', { replace: true });
+    }
   };
 
-  MenuItems = () => {
-    const content = [];
-    let { items } = this;
-    items = items.map((item, index) => (
-      <S.MenuItem key={String(index)}>
-        <S.MenuLink onClick={this.LogOut} to={item.path}>
-          {item.title}
-        </S.MenuLink>
-      </S.MenuItem>
-    ));
-    return items;
-  };
+  arrItems = items.map((item, index) => (
+    <S.MenuItem key={String(index)}>
+      <S.MenuLink
+        theme={theme}
+        onClick={(e) => LogOut(e, item.path)}
+        to={item.path}
+      >
+        {item.title}
+      </S.MenuLink>
+    </S.MenuItem>
+  ));
+  arrItems.push(
+    <S.MenuItem key="3" onClick={setTheme}>
+      <SvgTheme theme={theme} />
+    </S.MenuItem>
+  );
+  return (
+    <S.NavMenu>
+      <S.MenuList>{arrItems}</S.MenuList>
+    </S.NavMenu>
+  );
+}
+function ClickBurgerFunc({ theme, setTheme }) {
+  const items = [
+    { title: 'Главное', path: '/' },
+    { title: 'Мой плейлист', path: '/sets/4' },
+    { title: 'Выйти', path: '/login' },
+  ];
+  const [click, setClick] = useState(false);
 
-  BurgerLines = () => {
+  const BurgerLines = () => {
     const content = [];
     for (let i = 0; i < 3; i++) {
-      content.push(<S.BurgerLine key={i.toString()} />);
+      content.push(<S.BurgerLine theme={theme} key={i.toString()} />);
     }
     return content;
   };
 
-  // eslint-disable-next-line react/no-access-state-in-setstate
-  handleClick = () => this.setState({ click: !this.state.click });
+  const handleClick = () => setClick(!click);
 
-  FormMenuItems = () => (
-    <S.NavMenu>
-      <S.MenuList>{this.MenuItems()}</S.MenuList>
-    </S.NavMenu>
+  return (
+    <>
+      <S.NavBurger onClick={() => handleClick()}>
+        <BurgerLines />
+      </S.NavBurger>
+
+      {click && (
+        <FormMenuItems items={items} setTheme={setTheme} theme={theme} />
+      )}
+    </>
   );
-
-  render() {
-    const { click } = this.state;
-    return (
-      <>
-        <S.NavBurger onClick={() => this.handleClick()}>
-          <this.BurgerLines />
-        </S.NavBurger>
-
-        {click && <this.FormMenuItems />}
-      </>
-    );
-  }
 }
