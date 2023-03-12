@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import axios from 'axios';
 import BASE_URL from '../../../Base_URL';
 
@@ -13,7 +12,6 @@ import {
   FetchAccessTokenFailure,
   FetchRefreshTokenSuccess,
   FetchRefreshTokenFailure,
-  FetchPlayingTrack
 } from '../creators/creators';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -68,22 +66,21 @@ export const fetchGetToken = (bodyGetTokenData) => async (dispatch) => {
   }
 };
 
-export const fetchRefreshToken =
-  () => async (dispatch, getState) => {
-    // dispatch(FetchSignUpStarted());
-    const state = getState();
-    const bodyRefreshTokenData = { refresh: state.spotyfy.refreshToken };
-    try {
-      const { data } = await axios.post(
-        `${BASE_URL}user/token/refresh/`,
-        bodyRefreshTokenData,
-        axios({
-          headers: { 'Content-Type': 'application/json' },
-          responseType: 'json',
-        })
-      );
-      dispatch(FetchRefreshTokenSuccess(data));
-    } catch (error) {
-      dispatch(FetchRefreshTokenFailure(error));
-    }
-  };
+export const fetchRefreshToken = () => async (dispatch, getState) => {
+  // dispatch(FetchSignUpStarted());
+  const state = getState();
+  const bodyRefreshTokenData = { refresh: state.spotyfy.refreshToken };
+  try {
+    const { data } = await axios.post(
+      `${BASE_URL}user/token/refresh/`,
+      bodyRefreshTokenData,
+      axios({
+        headers: { 'Content-Type': 'application/json' },
+        responseType: 'json',
+      })
+    );
+    dispatch(FetchRefreshTokenSuccess(data));
+  } catch (error) {
+    dispatch(FetchRefreshTokenFailure(error));
+  }
+};
